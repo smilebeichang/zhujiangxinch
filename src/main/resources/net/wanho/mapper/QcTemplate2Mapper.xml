@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.wanho.mapper.QcTemplate2Mapper">
+	<resultMap type="net.wanho.pojo.TemplateBean2" id="TemplateBean2">
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="templ_name" property="templateName" jdbcType="VARCHAR" />
+		<result column="creator_code" property="creatorCode" jdbcType="VARCHAR" />
+		<result column="creator_name" property="creatorName" jdbcType="VARCHAR" />
+		<result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="templ_type" property="templateType" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap type="net.wanho.pojo.RobotNavigationTreeNodeBean" id="RobotNavigationTreeNodeBean">
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="parent_code" property="parentCode" jdbcType="VARCHAR" />
+		<result column="question" property="question" jdbcType="VARCHAR" />
+		<result column="answer" property="answer" jdbcType="VARCHAR" />
+		<result column="order_no" property="orderNo" jdbcType="INTEGER" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="update_account_code" property="updateAccountCode" jdbcType="VARCHAR" />
+		<result column="channel_no" property="channelNo" jdbcType="VARCHAR" />
+		<result column="answer_type" property="answerType" jdbcType="VARCHAR" />
+		<result column="relation_code" property="relationCode" jdbcType="VARCHAR" />
+		<result column="question" property="text" jdbcType="VARCHAR" />
+		<result column="code" property="id" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+
+	<select id="searchByBean" resultType="net.wanho.pojo.TemplateBean2" resultMap="TemplateBean2">
+		select * from uomp_qc_template where 1=1
+		<if test="templateName!=null and ''!=templateName">
+			and templ_name = #{templateName}
+		</if>
+		<if test="templateType!=null and ''!=templateType">
+			and templ_type = #{templateType}
+		</if>
+		<if test="beginTime!=null">
+			and update_DATE > #{beginTime}
+		</if>
+		<if test="endTime!=null">
+			and update_DATE > #{endTime}
+		</if>
+	</select>
+
+
+    <update id="update1">
+		update uomp_qc_template set templ_name = #{templateName},templ_type = #{templateType},update_DATE=#{updateDate} where code= #{code}
+	</update>
+
+	<insert id="add1">
+		INSERT  into uomp_qc_template (templ_name,templ_type,update_DATE,code) VALUES (#{templateName},#{templateType},#{updateDate}, #{code})
+	</insert>
+
+	<delete id="delete1">
+		delete from  uomp_qc_template where code = #{code}
+	</delete>
+
+	<select id="searchRootTree" resultType="net.wanho.pojo.RobotNavigationTreeNodeBean" resultMap="RobotNavigationTreeNodeBean">
+		select * from rb_navigation_info where parent_code is null
+	</select>
+
+	<select id="searchChildrenTree" resultType="net.wanho.pojo.RobotNavigationTreeNodeBean" resultMap="RobotNavigationTreeNodeBean">
+		select * from rb_navigation_info where parent_code = #{parentCode}
+	</select>
+
+</mapper>

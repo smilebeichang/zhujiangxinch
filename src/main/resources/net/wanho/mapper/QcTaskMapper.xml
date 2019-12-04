@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.wanho.mapper.QcTaskMapper">
+
+	<resultMap type="net.wanho.pojo.QcTaskBean"
+			   id="QcTaskBean">
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="task_name" property="taskName"
+				jdbcType="VARCHAR" />
+		<result column="template_code" property="templateCode"
+				jdbcType="VARCHAR" />
+		<result column="template_name" property="templateName"
+				jdbcType="VARCHAR" />
+		<result column="task_type" property="taskType"
+				jdbcType="VARCHAR" />
+		<!-- begin lhx20180726 -->
+		<!-- 任务组别 -->
+		<result column="task_group" property="taskGroup"
+				jdbcType="VARCHAR" />
+		<!--end lhx20180726 -->
+		<result column="media_type" property="mediaType"
+				jdbcType="VARCHAR" />
+		<result column="begin_date" property="beginDate"
+				jdbcType="TIMESTAMP" />
+		<result column="end_date" property="endDate"
+				jdbcType="TIMESTAMP" />
+		<result column="creator_code" property="creatorCode"
+				jdbcType="VARCHAR" />
+		<result column="creator_name" property="creatorName"
+				jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate"
+				jdbcType="TIMESTAMP" />
+		<!-- begin lhx20180726 -->
+		<!-- 创建时间 -->
+		<!--<result column="create_time" property="createTime"
+				jdbcType="VARCHAR" />-->
+		<!-- end lhx20180726 -->
+		<result column="update_date" property="updateDate"
+				jdbcType="TIMESTAMP" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="satisfaction" property="satisfaction"
+				jdbcType="VARCHAR" />
+		<result column="min_seconds" property="minSeconds"
+				jdbcType="INTEGER" />
+		<result column="max_seconds" property="maxSeconds"
+				jdbcType="INTEGER" />
+		<result column="tran_code" property="tranCode"
+				jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap type="net.wanho.pojo.QcTaskExtBean"
+			   id="QcTaskExtBean">
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="task_name" property="taskName"
+				jdbcType="VARCHAR" />
+		<result column="template_code" property="templateCode"
+				jdbcType="VARCHAR" />
+		<result column="template_name" property="templateName"
+				jdbcType="VARCHAR" />
+		<result column="task_type" property="taskType"
+				jdbcType="VARCHAR" />
+		<!-- begin lhx20180726 -->
+		<!-- 任务组别 -->
+		<result column="task_group" property="taskGroup"
+				jdbcType="VARCHAR" />
+		<!--end lhx20180726 -->
+		<result column="media_type" property="mediaType"
+				jdbcType="VARCHAR" />
+		<result column="begin_time" property="beginTime"
+				jdbcType="TIMESTAMP" />
+		<result column="end_time" property="endTime"
+				jdbcType="TIMESTAMP" />
+		<result column="creator_code" property="creatorCode"
+				jdbcType="VARCHAR" />
+		<result column="creator_name" property="creatorName"
+				jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate"
+				jdbcType="TIMESTAMP" />
+		<result column="create_time" property="createTime"
+				jdbcType="VARCHAR" />
+		<result column="update_date" property="updateDate"
+				jdbcType="TIMESTAMP" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="satisfaction" property="satisfaction"
+				jdbcType="VARCHAR" />
+		<result column="min_seconds" property="minSeconds"
+				jdbcType="INTEGER" />
+		<result column="max_seconds" property="maxSeconds"
+				jdbcType="INTEGER" />
+		<result column="tran_code" property="tranCode"
+				jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="getQcTaskListByBean" resultType="net.wanho.pojo.QcTaskExtBean" resultMap="QcTaskExtBean">
+		SELECT  *  from uomp_qc_task where template_code = #{templateCode}
+	</select>
+
+
+</mapper>

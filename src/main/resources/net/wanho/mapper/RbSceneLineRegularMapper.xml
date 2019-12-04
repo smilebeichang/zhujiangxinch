@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.wanho.mapper.RbSceneLineRegularMapper">
+	<resultMap type="net.wanho.pojo.RbSceneLineRegularBean" id="RbSceneLineRegularBean">
+
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="CREATER_NAME" property="createrName" jdbcType="VARCHAR" />
+		<result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="model_code" property="modelCode" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+
+	<select id="selectRbSceneLineRegular" resultMap="RbSceneLineRegularBean">
+		SELECT  * from rb_scene_line_regular_info where MODEL_CODE = #{modelCode}
+	</select>
+
+
+	<insert id="addLineRegularBatch" parameterType="java.util.List">
+		insert into rb_scene_line_regular_info (code,content,CREATER_NAME,model_code) VALUES
+		<foreach collection="list" item="item" index="index"  separator=",">
+			(#{item.code},#{item.content},#{item.createrName},#{item.modelCode})
+		</foreach>
+	</insert>
+
+
+
+	<update id="updateLineRegularBatch" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" separator=";">
+			UPDATE rb_scene_line_regular_info
+			<set>
+				<if test="item.content != null">
+					content = #{item.content,jdbcType=VARCHAR}
+				</if>
+			</set>
+			where code= #{item.code,jdbcType=VARCHAR}
+		</foreach>
+	</update>
+
+</mapper>

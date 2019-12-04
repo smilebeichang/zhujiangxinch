@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.wanho.mapper.TemplMapper">
+	<resultMap type="net.wanho.pojo.TemplateBean" id="TemplateBean">
+		<result column="CODE" property="code" jdbcType="VARCHAR" />
+		<result column="TEMPL_NAME" property="templateName" jdbcType="VARCHAR" />
+		<result column="CREATOR_CODE" property="creatorCode" jdbcType="VARCHAR" />
+		<result column="CREATOR_NAME" property="creatorName" jdbcType="VARCHAR" />
+		<result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="TEMPL_TYPE" property="templateType" jdbcType="VARCHAR" />
+		<result column="ITEM_GROUP" property="itemGroup" jdbcType="VARCHAR" />
+
+	</resultMap>
+	<insert id="saveTempl">
+		insert into uomp_qc_template (code,TEMPL_NAME,TEMPL_TYPE,CREATE_DATE,remark)VALUES (#{code},#{templateName},#{templateType},#{createDate},#{remark})
+	</insert>
+	<update id="UpdateTempl">
+		update uomp_qc_template set TEMPL_NAME = #{templateName},TEMPL_TYPE =#{templateType},CREATE_DATE=#{createDate},remark=#{remark}
+		where code =#{code}
+	</update>
+	<delete id="deleteTempl">
+		delete from  uomp_qc_template where code = #{code}
+	</delete>
+	<select id="searchTempl" resultMap="TemplateBean" >
+		select * from uomp_qc_template
+		where 1=1
+		<if test="templateName!=null and ''!=templateName">
+			and TEMPL_NAME like "%"#{templateName}"%"
+		</if>
+		<if test="templateType!=null and ''!=templateType">
+			and TEMPL_TYPE like #{templateType}
+		</if>
+		<if test="status!=null and ''!=status">
+			and status like #{status}
+		</if>
+		order by CREATE_DATE desc
+	</select>
+
+
+</mapper>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.wanho.mapper.qcTemplateMapper">
+	<resultMap type="net.wanho.pojo.qcTemplateBean" id="qcTemplateBean">
+		<result column="CODE" property="CODE" jdbcType="VARCHAR" />
+		<result column="TEMPL_NAME" property="TEMPL_NAME" jdbcType="VARCHAR" />
+		<result column="CREATOR_CODE" property="CREATOR_CODE" jdbcType="VARCHAR" />
+		<result column="CREATOR_NAME" property="CREATOR_NAME" jdbcType="VARCHAR" />
+		<result column="CREATE_DATE" property="CREATE_DATE" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_DATE" property="UPDATE_DATE" jdbcType="TIMESTAMP" />
+		<result column="STATUS" property="STATUS" jdbcType="VARCHAR" />
+		<result column="REMARK" property="REMARK" jdbcType="VARCHAR" />
+		<result column="TEMPL_TYPE" property="TEMPL_TYPE" jdbcType="VARCHAR" />
+		<result column="ITEM_GROUP" property="ITEM_GROUP" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<insert id="addQcTemplate">
+		insert into uomp_qc_template (code,TEMPL_NAME,CREATE_DATE,TEMPL_TYPE,STATUS)VALUES (#{CODE},#{TEMPL_NAME},#{CREATE_DATE},#{TEMPL_TYPE},#{STATUS})
+	</insert>
+	<update id="updateQcTemplate">
+		update uomp_qc_template set TEMPL_NAME = #{TEMPL_NAME},UPDATE_DATE = #{UPDATE_DATE},STATUS = #{STATUS},TEMPL_TYPE = #{TEMPL_TYPE}
+		where code = #{CODE}
+	</update>
+	<delete id="deleteQcTemplate">
+		delete from uomp_qc_template where code = #{CODE}
+	</delete>
+	<select id="queryQcTemplate" resultMap="qcTemplateBean">
+		SELECT
+			uomp_qc_template.`CODE`,
+			uomp_qc_template.TEMPL_NAME,
+			uomp_qc_template.CREATOR_CODE,
+			uomp_qc_template.CREATOR_NAME,
+			uomp_qc_template.CREATE_DATE,
+			uomp_qc_template.UPDATE_DATE,
+			uomp_qc_template.`STATUS`,
+			uomp_qc_template.REMARK,
+			uomp_qc_template.TEMPL_TYPE,
+			uomp_qc_template.ITEM_GROUP
+		FROM
+			uomp_qc_template
+		where 1=1
+		<if test="TEMPL_NAME!=null  and ''!=TEMPL_NAME">
+			and TEMPL_NAME like"%"#{TEMPL_NAME}"%"
+		</if>
+		<if test="TEMPL_TYPE!=null  and ''!=TEMPL_TYPE">
+			and TEMPL_TYPE = #{TEMPL_TYPE}
+		</if>
+		<if test="STATUS!=null  and ''!=STATUS">
+			and STATUS = #{STATUS}
+		</if>
+	</select>
+
+</mapper>

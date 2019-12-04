@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.wanho.mapper.DictionaryMapper">
+	<resultMap type="net.wanho.pojo.DictionaryBean" id="DictionaryBean">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="value" property="value" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="code_path" property="codePath" jdbcType="VARCHAR" />
+		<result column="has_child" property="hasChild" jdbcType="VARCHAR" />
+		<result column="editable" property="editable" jdbcType="VARCHAR" />
+		<result column="BUSSTYPE" property="bussType" jdbcType="INTEGER" />
+	</resultMap>
+	<select id="getDictionaryValues" parameterType="java.lang.String"
+			resultMap="DictionaryBean">
+		select id,
+			parent_id,
+			code,
+			value,
+			description,
+			order_no,
+			status,
+			update_date,
+			create_date,
+			code_path,
+			has_child,
+			busstype,
+			editable
+		from sys_dictionary_info
+		where code_path=#{codePath,jdbcType=VARCHAR}
+		order by order_no+0
+	</select>
+
+</mapper>

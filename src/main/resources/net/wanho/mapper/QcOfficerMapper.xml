@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.wanho.mapper.QcOfficerMapper">
+	<resultMap type="net.wanho.pojo.QcOfficerBean"  id="QcOfficerBean">
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="officer_code" property="officerCode" jdbcType="VARCHAR"/>
+		<result column="officer_name" property="officerName" jdbcType="VARCHAR"/>
+		<result column="business_group_code" property="businessGroupCode" jdbcType="VARCHAR" />
+		<result column="creator_code" property="creatorCode" jdbcType="VARCHAR"/>
+		<result column="creator_name" property="creatorName" jdbcType="VARCHAR"/>
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+		<result column="officer_type" property="officerType" jdbcType="VARCHAR"/>
+		<result column="remark" property="remark" jdbcType="VARCHAR"/>
+	</resultMap>
+	<insert id="insertQC">
+		INSERT into uomp_qc_officer (`code`,officer_code,officer_name,officer_type,remark) VALUES(#{code},#{code},#{officerName},#{officerType},#{remark})
+	</insert>
+	<update id="updateQC">
+		update uomp_qc_officer set officer_code = #{code},officer_name=#{officerName},remark=#{remark} where code = #{code}
+	</update>
+	<delete id="deleteQc">
+		DELETE  from uomp_qc_officer where code = #{code}
+	</delete>
+
+	<select id="getQcOfficerPageByBean" resultMap="QcOfficerBean">
+		select *  from uomp_qc_officer where 1=1
+		<if test="officerName != null  and officerName !=''" >
+			and officer_name like "%"#{officerName,jdbcType=VARCHAR}"%"
+		</if>
+		<if  test="officerCode !=null and officerCode !=''">
+			and	officer_code = #{officerCode,jdbcType=VARCHAR}
+		</if>
+	</select>
+</mapper>

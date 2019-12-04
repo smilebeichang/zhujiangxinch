@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间，和接口关联-->
+<mapper namespace="net.wanho.mapper.StudentMapper">
+    <insert id="insert">
+        insert into students VALUES (null,#{sname},#{sage},#{saddress},#{sgender},#{classId},null)
+
+    </insert>
+    <update id="update">
+        update students
+        <set>
+            <if test="#{sname}!=null">
+                sname=#{sname},
+            </if>
+            <if test="#{sage}!=null">
+                sage=#{sage},
+            </if>
+            <if test="#{saddress}!=null">
+                saddress=#{saddress},
+            </if>
+            <if test="#{sgender}!=null">
+                sgender=#{sgender},
+            </if>
+            <if test="#{classId}!=null">
+                classId=#{classId},
+            </if>
+
+        </set>
+        where sid=#{sid}
+
+    </update>
+
+    <select id="findAll" resultType="Student">
+        SELECT * from rb_batch_test
+    </select>
+    <cache
+        eviction="FIFO"
+        flushInterval="60000"
+        size="512"
+        readOnly="true"
+    />
+
+    <delete id="deleteStudent">
+        delete from students where sid=#{sid}
+    </delete>
+    <delete id="deleteStudentScore">
+         delete from student_score where sid=#{sid}
+    </delete>
+
+    <select id="queryById" resultType="Student">
+
+         select st.sid,st.sname,st.sgender,st.sage,st.saddress,st.classId,sc.scoreName,c.className from students  st LEFT JOIN student_score ss on st.sid = ss.sid LEFT JOIN score sc on ss.score_id = sc.score_id LEFT JOIN stuclass c on c.classId = st.classId where st.sid = #{sid}
+    </select>
+    <select id="queryClass" resultType="StuClass">
+        select c.* from stuclass c
+    </select>
+    <select id="queryScore" resultType="Score">
+        select sc.score_id scoreId, sc.scoreName scoreName from  score sc
+    </select>
+
+
+</mapper>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.wanho.mapper.TemplateMapper">
+	<resultMap type="net.wanho.pojo.TemplateBean" id="TemplateBean">
+		<result column="CODE" property="code" jdbcType="VARCHAR" />
+		<result column="TEMPL_NAME" property="templateName" jdbcType="VARCHAR" />
+		<result column="CREATOR_CODE" property="creatorCode" jdbcType="VARCHAR" />
+		<result column="CREATOR_NAME" property="creatorName" jdbcType="VARCHAR" />
+		<result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="TEMPL_TYPE" property="templateType" jdbcType="VARCHAR" />
+		<result column="ITEM_GROUP" property="itemGroup" jdbcType="VARCHAR" />
+
+	</resultMap>
+    <insert id="insertTemplate">
+		insert into uomp_qc_template(code,TEMPL_NAME,TEMPL_TYPE,CREATE_DATE)
+		values(#{code},#{templateName},#{templateType},#{createDate})
+	</insert>
+	<insert id="saveTemplate">
+		insert into uomp_qc_template(code,TEMPL_NAME,TEMPL_TYPE,CREATE_DATE)
+		values(#{code},#{templateName},#{templateType},#{createDate})
+	</insert>
+	<update id="updateTemplate">
+		update uomp_qc_template set TEMPL_NAME = #{templateName},TEMPL_TYPE = #{templateType},CREATE_DATE = #{createDate} where code = #{code}
+	</update>
+
+	<select id="searchTemplate" resultType="net.wanho.pojo.TemplateBean" resultMap="TemplateBean">
+		  SELECT
+				uomp_qc_template.`CODE`,
+				uomp_qc_template.TEMPL_NAME,
+				uomp_qc_template.CREATOR_CODE,
+				uomp_qc_template.CREATOR_NAME,
+				uomp_qc_template.CREATE_DATE,
+				uomp_qc_template.UPDATE_DATE,
+				uomp_qc_template.`STATUS`,
+				uomp_qc_template.REMARK,
+				uomp_qc_template.TEMPL_TYPE,
+				uomp_qc_template.ITEM_GROUP
+		  FROM
+				uomp_qc_template
+		  where 1 = 1
+		  <if test="templateName!=null and ''!=templateName">
+			  AND TEMPL_NAME like "%"#{templateName}"%"
+		  </if>
+		<if test="templateType!=null and ''!=templateType">
+			AND TEMPL_TYPE = #{templateType}
+		</if>
+		<if test="status!=null and ''!=status">
+			AND STATUS = #{status}
+		</if>
+	</select>
+
+	<delete id="deleteTemplate">
+		delete  from  uomp_qc_template where code = #{code}
+	</delete>
+
+</mapper>

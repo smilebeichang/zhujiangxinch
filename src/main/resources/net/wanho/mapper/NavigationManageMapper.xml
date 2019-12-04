@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.wanho.mapper.NavigationManageMapper">
+	<resultMap type="net.wanho.pojo.NavigationInfoBean" id="NavigationInfoBean">
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="chanel" property="chanel" jdbcType="VARCHAR" />
+		<result column="icon_link" property="ioncLink" jdbcType="VARCHAR" />
+		<result column="icon_link_online" property="ioncLinkOnline" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+
+	<select id="searchNavigationManage" resultType="net.wanho.pojo.NavigationInfoBean" resultMap="NavigationInfoBean">
+		SELECT
+			ochat_navigation_info.`code`,
+			ochat_navigation_info.`name`,
+			ochat_navigation_info.icon_link,
+			ochat_navigation_info.icon_link_online,
+			ochat_navigation_info.serial,
+			ochat_navigation_info.remarks,
+			ochat_navigation_info.url,
+			ochat_navigation_info.chanel,
+			ochat_navigation_info.`status`
+		FROM
+			ochat_navigation_info
+	</select>
+
+
+</mapper>

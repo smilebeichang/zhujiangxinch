@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.wanho.mapper.RobotNavigationMapper">
+	<resultMap type="net.wanho.pojo.RobotNavigationTreeNodeBean" id="RobotNavigationTreeNodeBean">
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="parent_code" property="parentCode" jdbcType="VARCHAR" />
+		<result column="question" property="question" jdbcType="VARCHAR" />
+		<result column="answer" property="answer" jdbcType="VARCHAR" />
+		<result column="order_no" property="orderNo" jdbcType="INTEGER" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="update_account_code" property="updateAccountCode" jdbcType="VARCHAR" />
+		<result column="channel_no" property="channelNo" jdbcType="VARCHAR" />
+		<result column="answer_type" property="answerType" jdbcType="VARCHAR" />
+		<result column="relation_code" property="relationCode" jdbcType="VARCHAR" />
+		<result column="question" property="text" jdbcType="VARCHAR" />
+		<result column="code" property="id" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="searchNavigationManage" resultType="net.wanho.pojo.RobotNavigationTreeNodeBean" resultMap="RobotNavigationTreeNodeBean">
+		select * from rb_navigation_info where parent_code is null
+	</select>
+
+	<select id="getRobotNavigationByParentCode" parameterType="java.lang.String" resultMap="RobotNavigationTreeNodeBean">
+		select	* from rb_navigation_info
+		where parent_code = #{parentCode,jdbcType=VARCHAR}
+		order by order_no asc
+	</select>
+
+</mapper>

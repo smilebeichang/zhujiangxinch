@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.wanho.mapper.ItemMapper">
+	<resultMap type="net.wanho.pojo.ItemBean" id="ItemBean">
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="item_type" property="itemType" jdbcType="VARCHAR" />
+		<result column="item_content" property="itemContent" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap type="net.wanho.pojo.TemplateBean" id="TemplateBean">
+		<result column="code" property="code" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+
+	<select id="searchItem" parameterType="net.wanho.pojo.TemplateBean" resultMap="ItemBean">
+		select * from uomp_qc_item where code NOT in
+		(
+		select item_code from uomp_qc_template_items
+		where templ_code = #{code}
+		)
+	</select>
+
+
+</mapper>

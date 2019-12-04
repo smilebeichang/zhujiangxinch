@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.wanho.mapper.TemplateItemMapper">
+	<resultMap type="net.wanho.pojo.TemplateItemBean" id="TemplateItemBean">
+		<result column="templ_code" property="templCode" jdbcType="VARCHAR" />
+		<result column="item_code" property="itemCode" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="max_score" property="maxScore" jdbcType="INTEGER" />
+		<result column="item_content" property="itemContent" jdbcType="VARCHAR" />
+		<result column="item_type" property="itemType" jdbcType="VARCHAR" />
+	</resultMap>
+	<insert id="insertTemplateItem">
+		insert into uomp_qc_template_items (templ_code,item_code,remark,item_content)VALUES (#{templCode},#{itemCode},#{remark},#{itemContent})
+	</insert>
+
+	<select id="searchTemplateItem" resultType="net.wanho.pojo.TemplateItemBean" resultMap="TemplateItemBean">
+		SELECT * from uomp_qc_template_items where templ_code = #{templCode}
+		<if test="itemType != null  and itemType !=''" >
+			and  item_type =#{itemType}
+		</if>
+		<if test="itemContent != null  and itemContent !=''" >
+			and item_content like "%"#{itemContent,jdbcType=VARCHAR}"%"
+		</if>
+	</select>
+
+	<delete id="deleteTemplateItem">
+		delete from uomp_qc_template_items where templ_code = #{templCode} and item_code = #{itemCode}
+	</delete>
+
+</mapper>

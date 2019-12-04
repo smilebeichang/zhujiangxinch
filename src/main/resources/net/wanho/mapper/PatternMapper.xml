@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.wanho.mapper.PatternMapper">
+	<resultMap type="net.wanho.pojo.PatternConfig" id="BatchTestBean">
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="CREATER_CODE" property="createAccountCode" jdbcType="VARCHAR" />
+		<result column="common" property="common" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap type="net.wanho.pojo.Pattern" id="Pattern">
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="CREATER_CODE" property="createAccountCode" jdbcType="VARCHAR" />
+		<result column="parent_code" property="parentCode" jdbcType="VARCHAR" />
+		<result column="common" property="common" jdbcType="VARCHAR" />
+		<result column="big_type" property="bigType" jdbcType="VARCHAR" />
+		<result column="middle_type" property="middleType" jdbcType="VARCHAR" />
+		<result column="small_type" property="smallType" jdbcType="VARCHAR" />
+		<result column="core_word" property="coreWord" jdbcType="VARCHAR" />
+		<result column="core_word2" property="coreWord2" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="getPatternConfigs" resultType="net.wanho.pojo.PatternConfig">
+		SELECT DISTINCT name  from RB_PATTERN_CONF
+	</select>
+
+    <select id="getPatterns" resultType="net.wanho.pojo.Pattern" resultMap="Pattern">
+		select t.code,
+		t.PARENT_CODE,
+		t.CONTENT,
+		t.CREATE_DATE,
+		t.CREATER_CODE,
+		t.CATEGORY_CODE,
+		t.REGULAR,
+		t.COMMON,
+		a.CONTENT answercontent,
+		t.patternTypeCode,
+		t.intentionCode,
+		t.STATUS,
+		t.BIG_TYPE,
+		t.MIDDLE_TYPE,
+		t.SMALL_TYPE,
+		t.CONFIG_CODE,
+		t.CORE_WORD,
+		t.CORE_WORD2
+		from RB_PATTERN_INFO t
+		<if test="intentionCode ==null or intentionCode ==''">
+			, RB_Answer_INFO a
+		</if>
+		where 1=1
+		<if test="intentionCode ==null or intentionCode ==''">
+			and t.code=a.PATTERN_CODE
+			and t.intentionCode  is null
+		</if>
+		<if test="bigType!=null and ''!=bigType">
+			and big_type = #{bigType}
+		</if>
+		<if test="middleType!=null and ''!=middleType">
+			and middle_type = #{middleType}
+		</if>
+		<if test="smallType!=null and ''!=smallType">
+			and small_type = #{smallType}
+		</if>
+	</select>
+
+	<select id="getSubPatterns" resultType="net.wanho.pojo.Pattern" resultMap="Pattern">
+		SELECT *  from RB_PATTERN_INFO where parent_code = #{parentCode}
+		<if test="bigType!=null and ''!=bigType">
+			big_type = #{bigType}
+		</if>
+		<if test="middleType!=null and ''!=middleType">
+			middle_type = #{middleType}
+		</if>
+		<if test="smallType!=null and ''!=smallType">
+			small_type = #{smallType}
+		</if>
+	</select>
+
+
+</mapper>

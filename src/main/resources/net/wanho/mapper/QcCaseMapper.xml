@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.wanho.mapper.QcCaseMapper">
+	<resultMap type="net.wanho.pojo.QcCaseBean" id="QcCaseMapper">
+		<result column="UNIQUE_SERIAL_NO" property="uniqueSerialNo" jdbcType="VARCHAR" />
+		<result column="MEDIA_TYPE" property="mediaType" jdbcType="VARCHAR" />
+		<result column="CASE_TYPE" property="caseType" jdbcType="TIMESTAMP" />
+		<result column="SUM_NO" property="sumNo" jdbcType="VARCHAR" />
+		<result column="ACCOUNT_CODE" property="accountCode" jdbcType="INTEGER" />
+		<result column="EMP_NAME" property="empName" jdbcType="INTEGER" />
+		<result column="RECORDER_CODE" property="recorderCode" jdbcType="VARCHAR" />
+		<result column="RECORDER_NAME" property="recorderName" jdbcType="VARCHAR" />
+		<result column="CREATE_DATE" property="createDate"  />
+		<result column="REASON" property="reason" jdbcType="VARCHAR" />
+		<result column="UPDATE_DATE" property="updateDate"  />
+		<result column="UPDATER_CODE" property="updaterCode" jdbcType="VARCHAR" />
+		<result column="UPDATER_NAME" property="updaterName" jdbcType="VARCHAR" />
+		<result column="UPDATE_REASON" property="updateReason" jdbcType="VARCHAR" />
+		<result column="CUST_NAME" property="custName" jdbcType="VARCHAR" />
+		<result column="BUSI_TYPE" property="busiType" jdbcType="VARCHAR" />
+		<result column="BUSI_SUB_TYPE" property="busiSubType" jdbcType="VARCHAR" />
+		<result column="QC_RECORD_CODE" property="qcRecordCode" jdbcType="VARCHAR" />
+		<result column="QC_SCORE" property="qcScore" jdbcType="VARCHAR" />
+
+	</resultMap>
+	<insert id="insertQcCaseByBean">
+		INSERT into uomp_qc_case (UNIQUE_SERIAL_NO,CASE_TYPE,CUST_NAME,RECORDER_NAME) VALUES (#{uniqueSerialNo},#{caseType},#{custName},#{recorderName})
+	</insert>
+	<update id="updateQcCaseByBean">
+		UPDATE uomp_qc_case set CASE_TYPE =#{caseType},CUST_NAME=#{custName},RECORDER_NAME=#{recorderName} where UNIQUE_SERIAL_NO = #{uniqueSerialNo}
+	</update>
+	<delete id="deleteQcCaseByBean">
+		delete from uomp_qc_case where UNIQUE_SERIAL_NO = #{id}
+	</delete>
+	<select id="getQaCaseByBean" resultMap="QcCaseMapper">
+		SELECT
+			uomp_qc_case.UNIQUE_SERIAL_NO,
+			uomp_qc_case.MEDIA_TYPE,
+			uomp_qc_case.CASE_TYPE,
+			uomp_qc_case.SUM_NO,
+			uomp_qc_case.ACCOUNT_CODE,
+			uomp_qc_case.EMP_NAME,
+			uomp_qc_case.RECORDER_CODE,
+			uomp_qc_case.RECORDER_NAME,
+			uomp_qc_case.CREATE_DATE,
+			uomp_qc_case.REASON,
+			uomp_qc_case.UPDATE_DATE,
+			uomp_qc_case.UPDATER_CODE,
+			uomp_qc_case.UPDATER_NAME,
+			uomp_qc_case.UPDATE_REASON,
+			uomp_qc_case.CUST_NAME,
+			uomp_qc_case.CUST_PHONE,
+			uomp_qc_case.BUSI_TYPE,
+			uomp_qc_case.BUSI_SUB_TYPE,
+			uomp_qc_case.QC_RECORD_CODE,
+			uomp_qc_case.QC_SCORE
+		FROM
+			uomp_qc_case
+		where 1=1
+		<if test="caseType!=null and caseType !=''">
+			and case_Type = #{caseType}
+		</if>
+		<if test="reason!=null and reason !=''">
+			and REASON like "%"#{reason}"%"
+		</if>
+	</select>
+
+</mapper>

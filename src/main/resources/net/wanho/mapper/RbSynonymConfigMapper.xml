@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.wanho.mapper.RbSynonymConfigMapper">
+	<resultMap type="net.wanho.pojo.RbSynonymConfigBean" id="RbSynonymConfigBean">
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="words" property="words"/>
+		<result column="create_date" property="createDate"/>
+		<result column="creater_code" property="createrCode"/>
+		<result column="status" property="status"/>
+		<result column="method" property="method"/>
+	</resultMap>
+	<insert id="saveRbSynonymConfig">
+		INSERT into RB_synonym_config (code,words,CREATE_Date,STATUS,method) VALUES(#{code},#{words},#{createDate},#{status},#{method})
+	</insert>
+	<update id="UpdateRbSynonymConfig" >
+		UPDATE  RB_synonym_config set words=#{words},CREATE_Date='2019-10-07 10:46:06',CREATEr_code='111',STATUS='1',method=#{method} where code = #{code}
+	</update>
+	<delete id="deleteSynonym">
+		DELETE from RB_synonym_config where code = #{code}
+	</delete>
+	<select id="getRbSynonymConfigs" resultMap="RbSynonymConfigBean">
+		SELECT * from RB_synonym_config WHERE 1=1
+		<if test="words!=null and words!=''">
+			and words LIKE "%"#{words}"%"
+		</if>
+	</select>
+</mapper>

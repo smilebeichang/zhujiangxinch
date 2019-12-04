@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.wanho.mapper.QcTemplateItemMapper">
+	<resultMap type="net.wanho.pojo.QcTemplateItemBean" id="QcTemplateItems">
+		<result column="templ_code" property="templCode" jdbcType="VARCHAR" />
+		<result column="item_code" property="itemCode" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="max_score" property="maxScore" jdbcType="INTEGER" />
+		<result column="item_content" property="itemContent" jdbcType="VARCHAR" />
+		<result column="item_type" property="itemType" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<delete id="deleteQcTemplateItem">
+		delete from uomp_qc_template_items where templ_code = #{templCode}
+	</delete>
+
+	<select id="queryCheckItems" resultMap="QcTemplateItems">
+		SELECT * from uomp_qc_template_items where templ_code = #{templCode}
+	</select>
+
+
+</mapper>

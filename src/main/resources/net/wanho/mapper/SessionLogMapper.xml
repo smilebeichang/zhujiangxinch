@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.wanho.mapper.SessionLogMapper">
+	<resultMap id="RobotConversationLog" type="net.wanho.pojo.RobotConversationLogBean">
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="channel_no" property="channelNo" />
+		<result column="open_id" property="openId" />
+		<result column="nick_name" property="nickName" />
+		<result column="cust_name" property="custName" />
+		<result column="gender" property="gender" />
+		<result column="begin_time" property="beginTime" />
+		<result column="end_time" property="endTime" />
+		<result column="msg_num" property="msgNum" />
+		<result column="like_num" property="likeNum" />
+		<result column="tread_num" property="treadNum" />
+		<result column="no_answer_num" property="noAnswerNum" />
+	</resultMap>
+
+	<resultMap type="net.wanho.pojo.SessionLog" id="SessionLog">
+		<result property="code" column="code" jdbcType="VARCHAR" />
+		<result property="sessionID" column="SESSIONID" jdbcType="VARCHAR" />
+		<result property="patternCode" column="pattern_code" jdbcType="VARCHAR" />
+		<result property="custSent" column="cust_sent" jdbcType="VARCHAR" />
+		<result property="recordDate" column="record_date" jdbcType="TIMESTAMP" />
+		<result property="custName" column="custName" jdbcType="VARCHAR" />
+		<result property="chanel" column="chanel" jdbcType="VARCHAR" />
+		<result property="custNo" column="cust_no" jdbcType="VARCHAR" />
+		<result property="answerContent" column="answer_content" jdbcType="VARCHAR" />
+		<result property="requestType" column="requestType" jdbcType="INTEGER" />
+		<result property="responseType" column="responseType" jdbcType="INTEGER" />
+		<result property="satisfiedType" column="satisfied_type" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="selectSessionLogByBean" resultMap="RobotConversationLog">
+		select * from rb_conversation_log where 1=1
+		<if test="custName != null and custName !=''">
+			and cust_name LIKE #{custName}
+		</if>
+		<if test="nickName != null and nickName !=''">
+			and nick_name like "%"#{nickName}"%"
+		</if>
+		<if test="channelNo != null and channelNo !=''">
+			and channel_no = #{channelNo}
+		</if>
+		<if test="openId != null and openId !=''">
+			and open_id = #{openId}
+		</if>
+		<if test="beginTime != null ">
+			and begin_time &gt; #{beginTime}
+		</if>
+
+		<if test="noAnswerNum !=null and noAnswerNum>0">
+			and no_answer_num &lt; 0
+		</if>
+		<if test="treadNum !=null and treadNum>0">
+			and tread_num &lt; 0
+		</if>
+		<if test="likeNum !=null and likeNum>0">
+			and like_num &lt; 0
+		</if>
+
+	</select>
+	<select id="getSessionLogs" resultMap="SessionLog">
+		select  t.requestType,t.responseType,t.satisfied_type,t.cust_sent,t.answer_content from RB_SESSION_LOG t where 1=1 and t.SESSIONID  = #{sessionID}
+	</select>
+</mapper>

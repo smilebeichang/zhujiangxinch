@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.wanho.mapper.RbSceneModelMapper">
+	<resultMap type="net.wanho.pojo.RbSceneModelBean" id="RbSceneModelBean">
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="MARK" property="mark" jdbcType="VARCHAR" />
+		<result column="CREATE_CODE" property="createCode" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="selectRbSceneModelPageByBean" resultMap="RbSceneModelBean">
+		select * from rb_scene_model_info
+	</select>
+
+
+</mapper>

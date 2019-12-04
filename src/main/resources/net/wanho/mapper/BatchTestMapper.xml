@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.wanho.mapper.BatchTestMapper">
+	<resultMap type="net.wanho.pojo.BatchTestBean" id="BatchTestBean">
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="CREATE_ACCOUNT_CODE" property="createAccountCode" jdbcType="VARCHAR" />
+		<result column="question_num" property="questionNum" jdbcType="INTEGER" />
+		<result column="hit_num" property="hitNum" jdbcType="INTEGER" />
+		<result column="channel_no" property="channelNo" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap type="net.wanho.pojo.BatchTestDetailBean" id="BatchTestDetailBean">
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="batch_test_code" property="batchTestCode" jdbcType="VARCHAR" />
+		<result column="question" property="question" jdbcType="VARCHAR" />
+		<result column="answer" property="answer" jdbcType="VARCHAR" />
+		<result column="is_hit" property="isHit" jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+
+	</resultMap>
+
+
+	<update id="update">
+		UPDATE rb_batch_test SET NAME = #{name},create_account_code = '222',create_date = '2019-10-08 11:00:00',channel_no=#{channelNo}  where CODE = #{code}
+	</update>
+	<delete id="delete">
+		DELETE from rb_batch_test where CODE = '35'
+	</delete>
+
+	<select id="getBatchTestPage" resultMap="BatchTestBean">
+		select
+			code,
+			name,
+			create_account_code,
+			create_date,
+			question_num,
+			hit_num,
+			channel_no,
+			status
+		from rb_batch_test
+		where
+		1=1
+		<if test="name != null  and name !=''" >
+			and name like "%"#{name,jdbcType=VARCHAR}"%"
+		</if>
+		<if  test="channelNo !=null and channelNo !=''">
+			and	channel_no = #{channelNo,jdbcType=VARCHAR}
+		</if>
+		<if  test="beginTime !=null ">
+			and create_date between #{beginTime,jdbcType=VARCHAR} and #{endTime,jdbcType=VARCHAR}
+		</if>
+	</select>
+
+	<select id="findAll" resultType="net.wanho.pojo.BatchTestBean">
+		SELECT * from rb_batch_test
+	</select>
+    <select id="getBatchTestDetailPage" resultType="net.wanho.pojo.BatchTestDetailBean">
+		SELECT * from rb_batch_test_detail where 1=1 and batch_test_code = #{code}
+	</select>
+
+
+
+	<insert id="insert">
+		INSERT INTO rb_batch_test (`code`,`name`,create_date,channel_no,question_num) VALUES(#{code},#{name},#{createDate},#{channelNo},#{questionNum})
+	</insert>
+	<insert id="addBatchTestDetail">
+		INSERT INTO rb_batch_test_detail(code,batch_test_code,question,answer,is_hit,create_date) VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.code},#{item.batchTestCode},#{item.question},#{item.answer},#{item.isHit},#{item.createDate})
+		</foreach>
+	</insert>
+
+</mapper>

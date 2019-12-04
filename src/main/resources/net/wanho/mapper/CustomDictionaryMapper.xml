@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.wanho.mapper.CustomDictionaryMapper">
+    <resultMap id="CustomDictionaryMapper" type="net.wanho.pojo.CustomDictionaryBean">
+        <result column="code" property="code"/>
+        <result column="name" property="name"/>
+        <result column="oldname" property="oldname"/>
+        <result column="nature" property="nature"/>
+        <result column="frequency" property="frequency"/>
+        <result column="status" property="status"/>
+        <result column="patternconf" property="patternconf"/>
+    </resultMap>
+
+    <select id="getCustomDictionarys" resultType="net.wanho.pojo.CustomDictionaryBean">
+        SELECT  * from RB_CUSTOMDICTIONARY
+    </select>
+
+    <update id="updateConfig">
+        UPDATE  RB_CUSTOMDICTIONARY set nature = #{nature},patternconf = #{patternconf},name =#{name} where code = #{code}
+    </update>
+
+    <insert id="saveConfig">
+        INSERT  into RB_CUSTOMDICTIONARY (nature,patternconf,name,code,status) VALUES (#{nature},#{patternconf},#{name},#{code},#{status})
+    </insert>
+
+    <delete id="deleteCustomDictionary">
+        delete  from RB_CUSTOMDICTIONARY where code = #{code}
+    </delete>
+</mapper>
