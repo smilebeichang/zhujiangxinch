@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户信息测试</title>
+    <script type="text/javascript" src="../js/sunriseui.js"></script>
+    <script type="text/javascript" src="../js/sunrise.js"></script>
+    <link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../themes/icon.css">
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/tradeCss.css" />
+    <script type="text/javascript" src="js/userInfo.js" ></script>
+</head>
+<body class="easyui-layout" style="width:100%;height: 800px">
+    <div data-options="region:'center'"  style="height: 100%;width: 100%">
+        <div class="toolbar_div_1">
+            <form id="search_form">
+                <table class="datagrid_table_2">
+                    <tr>
+                        <th>姓名：</th>
+                        <td><input class="easyui-textbox"></td>
+                        <th>性别：</th>
+                        <td><input class="easyui-combobox" id="userGender" data-options="valueField:'code',textField:'value'"></td>
+                        <td>
+                            <a href="#" class="easyui-linkbutton" onclick="searchUserInfo()" data-options="iconCls:'icon-search'">查询</a>
+                            <a href="#" class="easyui-linkbutton" onclick="updateOrAddUserInfo(true)" data-options="iconCls:'icon-edit'">修改</a>
+                            <a href="#" class="easyui-linkbutton" onclick="updateOrAddUserInfo(false)" data-options="iconCls:'icon-add'">新增</a>
+                            <a href="#" class="easyui-linkbutton" onclick="deleteUserInfo()" data-options="iconCls:'icon-cancel'">删除</a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <table id="list_userInfoTable" class="easyui-datagrid datagrid_table_1" data-options="rownumbers:true,fitColumns:true">
+            <thead>
+                <tr>
+                    <th data-options="field:'userCode',width:100" type="hidden" >Code</th>
+                    <th data-options="field:'userName',width:100">姓名</th>
+                    <th data-options="field:'userGender',width:100,formatter:formatterGender">性别</th>
+                    <th data-options="field:'userStatus',width:100,formatter:formatterStatus">状态</th>
+                    <th data-options="field:'userAge',width:100">年龄</th>
+                    <th data-options="field:'userCity',width:100">城市</th>
+                    <th data-options="field:'opt',width:100,formatter:formatterOption">操作</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <!--dialog 新增修改-->
+    <div class="easyui-dialog" id="openDialog" title="编辑窗口">
+        <form id="open_form">
+            <table class="datagrid_table_2">
+                <input name="userCode" id="userCode" type="hidden">
+                <tr>
+                    <th>姓名：</th>
+                    <td><input name="userName" id="userName" class="easyui-textbox"></td>
+                </tr>
+                <tr>
+                    <th>年龄：</th>
+                    <td><input name="userAge" id="userAge" class="easyui-textbox"></td>
+                </tr>
+                <tr>
+                    <th>状态：</th>
+                    <td><input name="userStatus" id="userStatus" class="easyui-combobox"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="#" class="easyui-linkbutton" onclick="javascript:saveUserInfo()" style="width: 80px"
+                           data-options="iconCls:'icon-ok'">确认</a>
+                        <a href="#" class="easyui-linkbutton" onclick="javascript:$('#openDialog').dialog('close')" style="width: 80px"
+                           data-options="iconCls:'icon-cancel'">取消</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>
