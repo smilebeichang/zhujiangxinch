@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.wanho.mapper.UserInfoMapper">
+	<resultMap type="net.wanho.pojo.UserInfoBean" id="UserInfoBean">
+		<result column="userCode" property="userCode" jdbcType="VARCHAR" />
+		<result column="userName" property="userName" jdbcType="VARCHAR" />
+		<result column="userGender" property="userGender" jdbcType="VARCHAR" />
+		<result column="userAge" property="userAge" jdbcType="VARCHAR" />
+		<result column="userStatus" property="userStatus" jdbcType="VARCHAR" />
+		<result column="userCity" property="userCity" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+
+	<select id="searchUserInfo" resultType="net.wanho.pojo.UserInfoBean" resultMap="UserInfoBean">
+		SELECT
+			*
+		FROM
+			uomp_test_userInfo
+	</select>
+
+	<delete id="deleteUserInfo">
+		delete from uomp_test_userInfo where userCode =  #{userCode}
+	</delete>
+
+	<update id="updateUserInfo">
+		update uomp_test_userInfo set userName = #{userName}, userAge = #{userAge},userStatus = #{userStatus} where userCode = #{userCode}
+	</update>
+
+	<insert id="addUserInfo">
+		insert into uomp_test_userInfo (userName,userGender,userAge,userStatus,userCity,userCode) VALUES(#{userName},'male',#{userAge},#{userStatus},'江西',#{userCode});
+	</insert>
+
+</mapper>
