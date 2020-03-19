@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>numberSprinner</title>
+    <script type="text/javascript" src="../js/sunriseui.js"></script>
+    <link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../themes/icon.css">
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>合格分:</th>
+            <td><input id="passScore" name="passScore"
+                       class="easyui-numberspinner"
+                       validType="less['maxScore','numberbox']" style="width: 80px"
+                       value="5" data-options="required:true,min:0,max:100,increment:1" />
+            </td>
+        </tr>
+    </table>
+
+
+
+    <label>最高分：</label>
+    <input class="easyui-numberspinner" validType="" style="width: 100px"
+           data-options="required:true,min:0,max:10,increment:1">
+</body>
+</html>

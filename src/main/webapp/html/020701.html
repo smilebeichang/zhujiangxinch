@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo01</title>
+    <script type="text/javascript" src="../js/sunriseui.js"></script>
+    <script type="text/javascript" src="../js/sunrise.js"></script>
+    <link rel="stylesheet" type="text/css" href="../themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="../themes/icon.css" />
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/tradeCss.css" />
+    <script type="text/javascript" src="js/020701.js" ></script>
+</head>
+<body class="easyui-layout" style="width:100%;height: 800px">
+    <div data-options="region:'center'" title="数据查询" style="height: 100%;width: 100%">
+        <div class="toolbar_div_1">
+            <form id="searchForm">
+                <table class="datagrid_table_1">
+                    <tr>
+                        <th>渠道：</th>
+                        <td><input class="easyui-combobox" name="chanel" title="" id="chanelSearch"></td>
+                        <th>名称：</th>
+                        <td><input class="easyui-textbox" data-options="prompt:'支持模糊查询'" name="name" title="" id="nameSearch"></td>
+                        <td>
+                            <a href="#" class="easyui-linkbutton" onclick="searchDemo()"
+                               data-options="iconCls:'icon-search'">查询</a>
+                            <a href="#" class="easyui-linkbutton" onclick="openDemo(false)"
+                               data-options="iconCls:'icon-add'">新增</a>
+                            <a href="#" class="easyui-linkbutton" onclick="openDemo(true)"
+                               data-options="iconCls:'icon-edit'">修改</a>
+                            <a href="#" class="easyui-linkbutton" onclick="deleteDemo()"
+                               data-options="iconCls:'icon-cancel'">删除</a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <table id="list_demo" class="easyui-datagrid datagrid_table_1" data-options="rownumbers:true,fitColumns:true">
+            <thead>
+            <tr>
+                <th data-options="field:'name',width:200">名称</th>
+                <th data-options="field:'chanel',width:200">渠道</th>
+                <th data-options="field:'status',width:200">状态</th>
+                <th data-options="field:'opt',width:200,formatter:pic">操作</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+
+    <!--dialog 新增修改-->
+    <div class="easyui-dialog" id="openDialog">
+        <form id="open1_form">
+            <table class="datagrid_table_1">
+                <input name="code" id="code"  type="hidden">
+                <tr>
+                    <th>名称：</th>
+                    <td><input name="name" id="name" title="" class="easyui-textbox"></td>
+                    <th>渠道：</th>
+                    <td><input name="chanel" id="chanel" title="" class="easyui-combobox"></td>
+                    <td>
+                        <a href="#" class="easyui-linkbutton" onclick="AddOrUpdate()" style="width: 80px"
+                           data-options="iconCls:'icon-ok'">确认</a>
+                        <a href="#" class="easyui-linkbutton" onclick="$('#openDialog').dialog('close')" style="width: 80px"
+                           data-options="iconCls:'icon-cancel'">取消</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>

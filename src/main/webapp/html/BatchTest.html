@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>文件上传批量导入</title>
+    <script type="text/javascript" src="../js/sunriseui.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../js/jqPaginator.js"></script>
+    <script type="text/javascript" src="../js/BatchTestDemo.js"></script>
+    <script type="text/javascript" src="../js/ajaxfileupload.js"></script>
+    <!--<script type="text/javascript">
+        load("ajaxfileupload");
+    </script>-->
+
+    <!--字体大小颜色样式-->
+    <link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="onlinephone.css"  />
+    <link rel="stylesheet" type="text/css" href="../css/tradeCss.css" />
+    <link rel="stylesheet" type="text/css" href="../themes/icon.css">
+    <style type="text/css">
+        .button-green span {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+<div class="easyui-layout" style="width:100%;height:720px;">
+    <!--在线软电话区开始（北）  -->
+    <div data-options="region:'north',split:true" title="在线软电话区" style="height:80px">
+       <a class="easyui-layout" style="width: 100%; height: 50px;" data-options="border:false">
+            <a id="login" href="#"   class="easyui-linkbutton"
+               data-options="iconCls:'weixin',size:'large',group:'g1',disabled:true">签入</a>
+            <a id="ready" href="#"   class="easyui-linkbutton" onclick=" ready()"
+               data-options="iconCls:'ready', size:'large',group:'g1',disabled:true">就绪</a>
+            <a id="aux" href="#"   class="easyui-linkbutton" onclick=" aux()"
+               data-options="iconCls:'hold',size:'large',group:'g1',disabled:true">小休</a>
+            <a id="syn" href="#"   class="easyui-linkbutton" onclick=" syn()"
+               data-options="iconCls:'dtmf',size:'large',group:'g1',disabled:true">协同码生成</a>
+            <a id="monitor" href="#"    class="easyui-linkbutton" onclick=" forceWin()"
+               data-options="iconCls:'conference',size:'large',group:'g1',disabled:true">监听</a>
+        </a>
+    </div>
+
+    <!--左侧ztree开始（东）-->
+    <div data-options="region:'west',split:true" title="菜单信息" style="width:200px;">
+        <ul class="easyui-tree" data-options="url:'tree_data2.json',method:'get',animate:true"> </ul>
+    </div>
+
+    <!--批量测试（中心）-->
+    <div data-options="region:'center'" style="width:100%;">
+            <div id="tb-trans" class="toolbar_div_2" data-options="title:'批量测试'">
+                <form id="query_form">
+                    <table>
+                        <tr>
+                            <th>文件名：</th>
+                            <td><input id="name" name="name" class="easyui-textbox" title="" data-options="prompt:'支持模糊搜索'" /></td>
+                            <th>渠道名：</th>
+                            <td><input id="channelNo" name="channelNo" class="easyui-textbox" title=""/></td>
+                            <th>开始时间：</th>
+                            <td><input id="beginTime" name="beginTime" class="easyui-datebox" title=""></td>
+                            <th>结束时间：</th>
+                            <td><input id="endTime" name="endTime" class="easyui-datebox" title=""></td>
+                            <td colspan="12">
+                                <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'"
+                                   onclick=" query()">查询</a>
+                                <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'"
+                                   onclick=" openImportWin2()">批量导入</a>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+
+            <table id="query_list" class="easyui-datagrid datagrid_table_1"  style="width:100%;height:100%"
+                   data-options="singleSelect:true,collapsible:true,fitColumns:true">
+                <thead>
+                <tr>
+                    <th data-options="field:'code',width:100,hidden:true">ID</th>
+                    <th data-options="field:'channelNo',width:100,formatter:formatChanel">渠道名称</th>
+                    <th data-options="field:'createDate',width:300">创建日期</th>
+                    <th data-options="field:'name',width:100">名称</th>
+                    <th data-options="field:'questionNum',width:100">问题数量</th>
+                    <th data-options="field:'hitNum',width:100">命中数量</th>
+                    <th data-options="field:'hitRate',width:100,formatter:formatHitRate">命中率</th>
+                </tr>
+                </thead>
+            </table>
+    </div>
+</div>
+
+
+<!--批量导入easyui-dialog-->
+
+<div id="openWinBT" class="easyui-dialog" data-options="closed:true" style="width:60%; height:400px;">
+    <form id="editFormBT" enctype="multipart/form-data">
+        <div class="div_container">
+            <table style="word-wrap: break-word; word-break: break-all;">
+                <tr>
+                    <td width="20%">渠道：</td>
+                    <td width="80%"><input class="easyui-combobox" id="channelNo2" title="" data-options="required:true"></td>
+                </tr>
+                <tr>
+                    <td width="20%">名称：</td>
+                    <td width="80%">
+                        <input class="easyui-textbox" id="name2" data-options="required:true" title="" style="width:150px">
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%" style="width:150px"><span style="color:red">*</span>选择文件：</td>
+                    <td width="80%" id="fileInput">
+                        <input type="file" id="files" name="files" data-options="required:true" style="width:150px"><span>(大小不超过20M)</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-ok'"   style="height: 30px;" onclick=" upLoadFile()">提交</a></td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</div>
+
+
+
+</body>
+</html>

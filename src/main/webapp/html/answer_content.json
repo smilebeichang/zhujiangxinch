@@ -1,0 +1,11 @@
+[{"returnCode":"0000","returnMessage":"操作成功","bean":null,"rows":[],"total":0,
+  "map":{
+    "config":{
+      "version":"Sunrise 2.0","code":"e2625ef6404e47ffa18a36","chanel":"PSP","name":"微信客户","hadNature":",n,nz,nl,nr,ns,ntc,ntcf,nto,ntch,ntcb,ntu,nts,nth,ni,nit,nm,g,nnd,nf,v,j,l,vn,d,b,gi,i,vl,ry,nx,vi,nis,vd,","synonymNature":"n,gi,v,vd,vn,nr,vl,ry,","contentNature":"n,v,vd,vn,","dealClassName":"standardSemanticsService","avgscore":0.88,"matchscore":0.0,"presentence":"","sufsentence":"",
+      "nomatch":"您好 小包同学不能理解您咨询的问题还在努里学习中 ，请您按照显示的文字咨询......","nomatch2":"1","nomatch3":"2","toAgentWords":"3","ingeractiveToAgentNum":4,
+      "wcsentence":"终于等到您，小包同学很高兴为您服务~","createDate":1566821854000,"noAnswerNum":5,
+      "patternConfigRelates":[{
+        "version":"Sunrise 2.0","code":"3710b3538bc643d9a20e42","configCode":"e2625ef6404e47ffa18a36","patternConfigCode":"TEST","patternConfigName":"闲聊","orderNo":1}]
+    },"content":"测试123"
+  }
+}]

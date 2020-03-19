@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<script>
+	window['PAGE_ID'] = 'broadcast_manage_query';// 如: 'OY00031801'查询区域
+</script>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>素材库</title>
+	<link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../themes/icon.css">
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="onlinephone.css"  />
+	<!--CRUD的具体方法-->
+<script type="text/javascript" src="robotFileManage.js"></script>
+	<!--字体大小颜色样式-->
+<link rel="stylesheet" type="text/css"
+	href="../css/tradeCss.css" />
+	<style type="text/css">
+		.div_container  td, .div_container  th {
+			font: normal 12px/12px Arial, Helvetica, sans-serif;
+			color: #000000;
+			padding: 6px 4px;
+			border-style: dotted;
+			border-color: #d2d2d2;
+			border-width: 0px 1px 1px 0px;
+		}
+        .button-green span {
+            color: #ffffff;
+        }
+	</style>
+</head>
+<body id="layout_body" class="easyui-layout" data-options="fit:true">
+	<div id="layout_center_grid" class="div_color_1"
+		data-options="region:'center',split:true,border:false">
+		<!--id="query_list"在修改时用到了，判断其文件名,查询后的结果赋值-->
+		<!--checkOnSelect:false:
+			如果为true，当用户点击行的时候该复选框就会被选中或取消选中。
+			如果为false，当用户仅在点击该复选框的时候才会呗选中或取消。
+		-->
+		<table id="query_list" class="easyui-datagrid datagrid_table_1" data-options="checkOnSelect:false">
+			<thead>
+				<tr>
+				    <th data-options="field:'id',width:140,hidden:true">ID</th>
+					<th data-options="field:'fileName',width:140">文件名</th>
+					<th data-options="field:'fileType',width:20">文件类型</th>
+					<th data-options="field:'fileSize',width:30">文件大小</th>
+					<th data-options="field:'updateDate',width:30">更新日期</th>
+					<th data-options="field:'updateAccountName',width:30">更新人</th>
+                    <th data-options="field:'operator',width:20,formatter:addButton">操作</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+
+	<div id="tb-trans" class="toolbar_div_2">
+		<form id="query_form">
+			<table>
+				<tr>
+					<th>文件名：</th>
+					<td><input name="fileName" class="easyui-textbox"  data-options="prompt:'支持模糊搜索'" />
+					</td>
+					<th>开始时间：</th>
+					<td><input class="easyui-datebox"
+						name="startDate">
+					<th>结束时间：</th>
+					<td><input class="easyui-datebox"
+							   name="endDate">
+					</td>
+				</tr>
+				<tr>
+					<td colspan="6">
+                        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-delete'"
+                           onclick="javascript:deleteFile()">删除</a>
+                        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit'"
+                           onclick="javascript:openDetail('edit')">修改</a>
+						<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'"
+						   onclick="javascript:openDetail('add')">新增</a>
+						<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'"
+						onclick="javascript:query()">查询</a>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<!--编辑窗口-->
+	<div id="openWin" class="easyui-dialog" style="width:500px;height:430px;">
+		<form id="editForm">
+			<div class="div_container">
+				<table style="word-wrap: break-word; word-break: break-all;">
+					<tr>
+						<td width="20%" align="right">文件名：</td>
+						<td width="80%">
+							<input  id="fileName" name="fileName" class="easyui-textbox"  data-options="required:true,width:'300px'" />
+						</td>
+					</tr>
+					<tr>
+						<td align="right" width="20%"><span style="color: Red">*</span>选择文件：</td>
+						<td id="fileInput" width="80%"><input type="file" id="files" name="files"
+												 onchange="fileChange(this)"><span style='color: Red'>(文件大小不超过200M)</span></td>
+					</tr>
+				</table>
+			</div>
+		</form>
+	</div>
+	<!--窗口的确认取消框-->
+	<div id="winTools">
+		<a id="handle" href="javascript:void(0)" class="easyui-linkbutton btn_save" iconCls="icon-save" onclick="javascript:saveRobotFile()">保存</a>
+		<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#openWin').dialog('close')">取消</a>
+	</div>
+
+	<!--查看细节的url窗口-->
+    <div id="openUrlWin" class="easyui-dialog" style="width:700px;height:230px;">
+            <div class="div_container">
+                <table style="word-wrap: break-word; word-break: break-all;">
+                    <tr>
+                        <td width="20%" align="right">公网地址：</td>
+                        <td width="80%">
+                            <input  id="publicNetworkUrl" class="easyui-textbox"  data-options="width:'600px',readonly:true" />
+                        </td>
+                    </tr>
+                    <tr>
+                    <td width="20%" align="right">局域网地址：</td>
+                    <td width="80%">
+                        <input  id="lanUrl" class="easyui-textbox"  data-options="width:'600px',readonly:true" />
+                    </td>
+                    </tr>
+                </table>
+            </div>
+    </div>
+</body>
+</html>

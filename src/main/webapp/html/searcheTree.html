@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据库查询树结构</title>
+    <script type="text/javascript" src="../js/sunriseui.js"></script>
+    <script type="text/javascript" src="../js/sunrise.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="js/searcheTree.js" ></script>
+
+    <link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../themes/color.css">
+    <link rel="stylesheet" type="text/css" href="../themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="onlinephone.css"  />
+    <link rel="stylesheet" type="text/css" href="../css/tradeCss.css" />
+</head>
+<body>
+    <div data-options="region:'west',split:true" title="eTree"  style="height: 100%;width: 20%">
+        <ul class="easyui-tree" id="eTree" data-options="onContextMenu:clickMenu"></ul>
+    </div>
+
+    <div id="pm" class="easyui-menu" style="width: 120px">
+        <div  data-options="iconCls:'icon-add'">新增权限</div>
+        <div  data-options="iconCls:'icon-edit'">修改权限</div>
+        <div  data-options="iconCls:'icon-cancel'">删除权限</div>
+    </div>
+</body>
+</html>

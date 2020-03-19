@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>openWin</title>
+    <script type="text/javascript" src="../js/sunrise-framework.js"></script>
+    <script type="text/javascript" src="../js/sunriseui.js"></script>
+    <link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../themes/icon.css">
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="onlinephone.css"  />
+    <link rel="stylesheet" type="text/css" href="../css/tradeCss.css" />
+    <script type="text/javascript" src="../js/qcTemplate.js"></script>
+</head>
+<body>
+<div id="openWin" class="easyui-dialog"
+     data-options="title:'My Dialog',modal:true,
+			toolbar:[{
+				text:'编辑',
+				iconCls:'icon-edit',
+				handler:function(){addOrUpdate()}
+			},{
+				text:'帮助',
+				iconCls:'icon-help',
+				handler:function(){$('#openWin').dialog('close')}
+			}]">
+
+    <form id="edit_form" style="height: 200px;width: 300px">
+        <table>
+            <input id="CODE" name="code"  type="hidden">
+            <tr>
+                <th>类型：</th>
+                <td><input id="TEMPL_TYPE2" name="templ_TYPE" class="easyui-textbox" ></td>
+            </tr>
+            <tr>
+                <th>状态：</th>
+                <td><input id="STATUS2" name="status" class="easyui-textbox" ></td>
+            </tr>
+            <tr>
+                <th>名称：</th>
+                <td><input id="TEMPL_NAME2" name="TEMPL_NAME" class="easyui-textbox" ></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+
+</body>
+</html>

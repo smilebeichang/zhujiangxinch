@@ -1,0 +1,5 @@
+[{"returnCode":"0000","returnMessage":"操作成功","bean":null,
+  "rows":[{
+    "version":"Sunrise 2.0","code":"8aca20a7c2004afea984af","configCode":"TEST","content":"理赔","createAccountCode":"Admin","status":"4","categoryCode":"A","answercontent":"<p>123<span style=\"font-family: 微软雅黑;\"></span><br/></p>","patternTypeCode":"","bigType":"1","middleType":"1","smallType":"1","coreWord":"","coreWord2":""
+  }],
+  "total":1,"map":{}}]

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../js/sunriseui.js"></script>
+    <script type="text/javascript" src="../js/sunrise.js"></script>
+    <link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../themes/icon.css">
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="onlinephone.css"  />
+    <link rel="stylesheet" type="text/css" href="../css/tradeCss.css" />
+    <script type="text/javascript" src="js/layout01.js" ></script>
+</head>
+<body>
+    <div class="easyui-layout" style="height: 800px;width: 100%">
+        <div data-options="region:'north',split:true" title="软电话" style="height: 100px;width: 100%" >
+            <a href="#" class="easyui-linkbutton" data-options="iconCls:'ready',size:'large'">签出</a>
+            <a href="#" class="easyui-linkbutton" data-options="iconCls:'dial',size:'large'">签入</a>
+            <a href="#" class="easyui-linkbutton" data-options="iconCls:'conference',size:'large'">签出</a>
+            <a href="#" class="easyui-linkbutton" data-options="iconCls:'phone',size:'large'">忙碌</a>
+            <a href="#" class="easyui-linkbutton" data-options="iconCls:'answer',size:'large'">签出</a>
+        </div>
+        <div data-options="region:'west',split:true" title="ztree" style="height: 100%;width: 200px">
+            <ul class="easyui-tree" data-options="url:'tree_data2.json'"></ul>
+        </div>
+        <div data-options="region:'center',split:true"  style="height: 100%;width: 100%" class="easyui-layout">
+            <div data-options="region:'north',split:true,border:false" title="评分模板表" style="height: 50%;width: 100%">
+                <div class="toolbar_div_1">
+                    <form id="form_1">
+                        <table class="datagrid_table_1" >
+                            <tr>
+                                <th>名称：</th>
+                                <td><input name="templateName" id="templateName" class="easyui-textbox"></td>
+                                <th>类型：</th>
+                                <td><input name="templateType" id="templateType" class="easyui-combobox"></td>
+                                <th>创建时间:</th>
+                                <td><input id="beginTime" class="easyui-datebox" style="width: 100px">-至-<input id="endTime" class="easyui-datebox" style="width: 100px"></td>
+                                <td>
+                                    <a href="#" class="easyui-linkbutton" onclick="javascript:search1()" style="width: 80px"
+                                       data-options="iconCls:'icon-search'">查询</a>
+                                    <a href="#" class="easyui-linkbutton" onclick="javascript:addOrUpdate1Open(true)" style="width: 80px"
+                                       data-options="iconCls:'icon-edit'">修改</a>
+                                    <a href="#" class="easyui-linkbutton" onclick="javascript:addOrUpdate1Open(false)" style="width: 80px"
+                                       data-options="iconCls:'icon-add'">新增</a>
+                                    <a href="#" class="easyui-linkbutton" onclick="javascript:delete1()" style="width: 80px"
+                                       data-options="iconCls:'icon-cancel'">删除</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <table id="table1" class="easyui-datagrid datagrid_table_1" data-options="rownumbers:true,fitColumns:true,onSelect:searchLink">
+                    <thead>
+                    <tr>
+                        <th data-options="field:'templateName',width:300">名称</th>
+                        <th data-options="field:'templateType',width:300">类型</th>
+                        <th data-options="field:'createDate',width:400">创建时间</th>
+                        <th data-options="field:'creatorName',width:300">创建者</th>
+                        <th data-options="field:'updateDate',width:400">更新时间</th>
+                        <th data-options="field:'remark',width:300">备注</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div data-options="region:'center',split:true" title="评分关联表" style="height: 50%;width: 50%">
+                <div class="toolbar_div_1">
+                    <form id="form_2">
+                        <table class="datagrid_table_1">
+                            <tr>
+                                <th>名称：</th>
+                                <td><input class="easyui-textbox"></td>
+                                <th>类型：</th>
+                                <td><input class="easyui-combobox"></td>
+                                <td>
+                                    <a href="#" class="easyui-linkbutton" onclick="javascript:search2()"
+                                       data-options="iconCls:'icon-search'">查询</a>
+                                    <a href="#" class="easyui-linkbutton" onclick="javascript:delete22()"
+                                       data-options="iconCls:'icon-cancel'">删除</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <table id="table2" class="easyui-datagrid datagrid_table_1" data-options="rownumbers:true,fitColumns:true">
+                    <thead>
+                    <tr>
+                        <th data-options="field:'itemContent',width:200">内容</th>
+                        <th data-options="field:'itemType',width:200">类型</th>
+                        <th data-options="field:'templCode',width:300">模板Code</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div data-options="region:'east',split:true" title="评分未关联表" style="height: 50%;width: 50%">
+                <div class="toolbar_div_1">
+                    <form id="form_3">
+                        <table class="datagrid_table_1">
+                            <tr>
+                                <th>名称：</th>
+                                <td><input class="easyui-textbox"></td>
+                                <th>类型：</th>
+                                <td><input class="easyui-combobox"></td>
+                                <td>
+                                    <a href="#" class="easyui-linkbutton" onclick="javascript:search3()"
+                                        data-options="iconCls:'icon-search'">查询</a>
+                                    <a href="#" class="easyui-linkbutton" onclick="javascript:removeLink()"
+                                       data-options="iconCls:'icon-add'">关联</a>
+
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <table id="table3" class="easyui-datagrid datagrid_table_1" data-options="rownumbers:true,fitColumns:true">
+                    <thead>
+                    <tr>
+                        <th data-options="field:'status',width:100">状态</th>
+                        <th data-options="field:'itemContent',width:400">内容</th>
+                        <th data-options="field:'remark',width:100">备注</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="easyui-dialog" id="open1">
+        <form id="open1_form">
+            <table class="datagrid_table_1">
+                <input name="code" id="code" type="hidden">
+                <tr>
+                    <th>名称：</th>
+                    <td><input name="templateName" id="templateName2" class="easyui-textbox"></td>
+                    <th>类型：</th>
+                    <td><input name="templateType" id="templateType2"class="easyui-combobox"></td>
+                    <td>
+                        <a href="#" class="easyui-linkbutton" onclick="javascript:add1()" style="width: 80px"
+                           data-options="iconCls:'icon-ok'">确认</a>
+                        <a href="#" class="easyui-linkbutton" onclick="javascript:$('#open1').dialog('close')" style="width: 80px"
+                           data-options="iconCls:'icon-cancel'">取消</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+</body>
+</html>

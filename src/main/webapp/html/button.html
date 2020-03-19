@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>按钮</title>
+    <script type="text/javascript" src="../js/sunriseui.js"></script>
+    <link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../themes/icon.css">
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+</head>
+<body>
+
+<div id="configdlg" class="easyui-dialog" title="新增词汇" style="width:400px;height:400px;padding:10px;top: 100px;"
+     data-options="
+				closed:true,
+				buttons: [{
+					text:'提交',
+					iconCls:'icon-ok',
+					handler:function(){
+						addConfig()
+					}
+				},{
+					text:'取消',
+					handler:function(){
+						$('#configdlg').dialog('close');
+					}
+				}]
+			">
+</div>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>近义词</title>
+    <script type="text/javascript" src="../../../sunriseui.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/tradeCss.css" />
+    <link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../themes/icon.css">
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+</head>
+<body class="easyui-layout" data-options="fit:true">
+<table id="query_list"  class="easyui-datagrid" title="近义词管理" style="width:100%;height:100%"
+       data-options="rownumbers:true,singleSelect:true,fitColumns:true,pagination:true,
+			url:getHost(HostAddress.robot)+'/synonym/getRbSynonymConfigs',method:'post',toolbar:'#tb'">
+    <thead>
+    <tr>
+        <th data-options="field:'words',width:100,align:'left'">近义词词组</th>
+        <th data-options="field:'status',width:80,align:'left',nowrap:false, parameter:'root/SystemPara/robot/status'">状态</th>
+        <th data-options="field:'method',width:80,align:'left',nowrap:false">回调方法</th>
+    </tr>
+    </thead>
+</table>
+<div id="tb" style="padding:2px 5px;">
+    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript:saveOrupdate(1);">新增近义词</a>
+    <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="javascript:saveOrupdate(0);">修改近义词</a>
+    <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="javascript:deleSynonym();">删除近义词</a>
+    <input class="easyui-textbox" id="searchworks"/>
+    <a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="query();">搜索</a>
+</div>
+<div id="Synonymdlg" class="easyui-dialog" title="新增近义词" style="width:30%;height:200px;padding:10px;top: 100px;"
+     data-options="
+				closed:true,
+				buttons: [{
+					text:'提交',
+					iconCls:'icon-ok',
+					handler:function(){
+						addSynonym();
+					}
+				},{
+					text:'取消',
+					handler:function(){
+						$('#Synonymdlg').dialog('close');
+					}
+				}]
+			">
+    <form id="Synonymff" method="post" style="width:100%;">
+        <table style="width:100%;" >
+            <tr>
+                <td style="width: 30%;" align="right">近义词组:</td>
+                <td>
+                    <input type="hidden" name="code" id="code"/>
+                    <input type="hidden" name="status" id="status"/>
+                    <input class="easyui-textbox" name="words"
+                           data-options="multiline:true" style="height:60px;width: 100%;"></td>
+            </tr>
+            <tr>
+                <td align="right" >回调方法:</td>
+                <td><input class="easyui-textbox" name="method" style="width: 100%;"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>机器人批量测试</title>
+    <script type="text/javascript" src="../../../sunriseui.js"></script>
+    <script type="text/javascript" src="robotBatchTest.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/tradeCss.css" />
+    <link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../themes/icon.css">
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+</head>
+<body id="layout_body" class="easyui-layout" data-options="fit:true">
+<div id="layout_center_grid" class="div_color_1"
+     data-options="region:'center',split:true,border:false">
+    <table id="query_list" class="easyui-datagrid datagrid_table_1" data-options="checkOnSelect:false">
+        <thead>
+        <tr>
+            <th data-options="field:'code',width:140,hidden:true">ID</th>
+            <th data-options="field:'channelNo',width:60">渠道名称</th>
+            <th data-options="field:'name',width:140">批次名称</th>
+            <th data-options="field:'createDate',width:100">创建日期</th>
+            <th data-options="field:'createAccountCode',width:30">创建人</th>
+            <th data-options="field:'status',width:30">状态</th>
+            <th data-options="field:'questionNum',width:30">问题数量</th>
+            <th data-options="field:'hitNum',width:30">命中数量</th>
+            <th data-options="field:'hitRate',width:30,formatter:formatHitRate">命中率</th>
+        </tr>
+        </thead>
+    </table>
+</div>
+<div id="tb-trans" class="toolbar_div_2">
+    <form id="query_form">
+        <table>
+            <tr>
+                <th>渠道：</th>
+                <td>
+                    <input class="easyui-combobox"  data-options="valueField:'chanel',textField:'name'" id="channelQuery" name="channelNo" style="width:150px"/>
+                </td>
+                <th>批次名称：</th>
+                <td><input name="name" id="queryName" class="easyui-textbox"  data-options="prompt:'支持模糊搜索'" />
+                </td>
+                <!--新增创建时间-->
+                <th>创建时间：</th>
+                <td colspan="3"><input class="easyui-datebox" id="beginTime"   name="beginTime"  style="width: 200px;" editable="false"/>-至-<input class="easyui-datebox" id="endTime"  name="endTime"  editable="false" style="width: 200px;" /></td>
+
+            </tr>
+
+            <tr>
+                <td colspan="6">
+                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit'"
+                       onclick="javascript:exportQcTask()">导出明细</a>
+                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit'"
+                       onclick="javascript:openDetail()">查看明细</a>
+                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'"
+                       onclick="javascript:openImportWin()">导入</a>
+                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'"
+                       onclick="javascript:query()">查询</a>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<!--导入-->
+<div id="openWin" class="easyui-dialog" style="width:500px;height:430px;">
+    <form id="editForm">
+        <div class="div_container">
+            <table style="word-wrap: break-word; word-break: break-all;">
+                <tr>
+                    <td width="20%" align="right">渠道：</td>
+                    <td width="80%">
+                        <input class="easyui-combobox"  data-options="valueField:'chanel',required:true,textField:'name'" id="channelNo"  name="channelNo" style="width:150px"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%" align="right">批次名称：</td>
+                    <td width="80%">
+                        <input  id="name" name="name" class="easyui-textbox"  data-options="required:true,width:'300px'" />
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" width="20%"><span style="color: Red">*</span>选择文件：</td>
+                    <td id="fileInput" width="80%"><input type="file" id="files" name="files"
+                                                          onchange="fileChange(this)"><span style='color: Red'>(文件大小不超过200M)</span></td>
+                </tr>
+            </table>
+        </div>
+
+    </form>
+</div>
+<div id="winTools">
+    <a id="handle" href="javascript:void(0)" class="easyui-linkbutton btn_save" iconCls="icon-save" onclick="javascript:saveRobotFile()">保存</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#openWin').dialog('close')">取消</a>
+</div>
+<!--查看明细-->
+<div id="detail" class="easyui-dialog  div_color_1"  style="width:80%; height:520px;" >
+    <div  class="div_color_1" style="width: 100%; height:100%" >
+        <table id="detail_question_List" class="easyui-datagrid"
+               style="width: 100%; height:100%" data-options="nowrap:false">
+            <thead>
+                <tr>
+                    <th data-options="field:'question',width:100,align:'center'">问题</th>
+                    <th data-options="field:'answer',width:200,align:'center'">答案</th>
+                    <th data-options="field:'isHit',width:20,align:'center'">是否命中</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <div id="tb-trans2" class="toolbar_div_2">
+        <form>
+            <table>
+                <tr>
+                    <th>问题：</th>
+                    <td><input name="question" id="question" class="easyui-textbox"  data-options="prompt:'支持模糊搜索'" />
+                    </td>
+                    <th>是否命中：</th>
+                    <td>
+                        <input class="easyui-combobox" id="isHit" name="isHit" data-options="panelHeight:'auto',editable:false,valueField:'code',textField:'value'"/>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6">
+                        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'"
+                           onclick="javascript:queryDetail()">查询</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+
+<!--导出-->
+<div style="display: none">
+    <form id="exportForm" method="post">
+        <input type="text" name="code" />
+        <input type="text"  name="name" />
+    </form>
+</div>
+</body>
+</html>

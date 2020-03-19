@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>三级联动2</title>
+    <script type="text/javascript" src="../js/sunriseui.js"></script>
+    <script type="text/javascript" src="../js/sunrise.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="js/templ_Item_Task3.js"></script>
+    <script type="text/javascript">
+        load("ueditor");
+    </script>
+
+    <link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../css/tradeCss.css" />
+</head>
+<body>
+    <div class="easyui-layout" data-options="fit:true">
+        <div data-options="region:'north',height:100,title:'导航栏' "></div>
+        <div data-options="region:'west',width:100,title:'eTree' "></div>
+        <div data-options="region:'center',fit:true,title:'表格' " class="easyui-layout">
+            <div data-options="region:'center',height:100 ">
+                <div class="toolbar_div_1">
+                    <form id="toolbarForm">
+                        <table>
+                            <tr>
+                                <td>渠道：<input class="easyui-combobox"></td>
+                                <td>开始时间：<input class="easyui-datebox"></td>
+                                <td>A:<input class="easyui-combobox" id="A" data-options="valueField:'code',textField:'value'"></td>
+                                <td><input class="easyui-combobox" id="B" data-options="valueField:'code',textField:'value'"></td>
+                                <td><input class="easyui-combobox" id="C" data-options="valueField:'code',textField:'value'"></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a class="easyui-linkbutton" href="#" onclick="search222()" data-options="iconCls:'icon-search'" >查询</a>
+                                    <a class="easyui-linkbutton" onclick="add()" data-options="iconCls:'icon-add'" >新增</a>
+                                    <a class="easyui-linkbutton" onclick="update()" data-options="iconCls:'icon-edit'" >修改</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <table class="easyui-datagrid" id="queryList" data-options="selectOnCheck:true,fitColumns:true" >
+                    <thead>
+                    <tr>
+                        <th data-options="field:'ck',checkbox:true" style="width: 100px"></th>
+                        <th data-options="field:'content'" style="width: 100px">名称</th>
+                        <th data-options="field:'status',formatter:formatterStatus" style="width: 100px">状态</th>
+                        <th data-options="field:'bigType',formatter:formatterBigType" style="width: 100px">一级</th>
+                        <th data-options="field:'middleType',formatter:formatterMiddleType" style="width: 100px">二级</th>
+                        <th data-options="field:'smallType',formatter:formatterSmallType" style="width: 100px">三级</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

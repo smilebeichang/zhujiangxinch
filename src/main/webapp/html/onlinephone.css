@@ -1,0 +1,56 @@
+.teleLogin{
+	background:url('../softphone/teleLogin.png') no-repeat center center;
+	}
+	.teleLogout{
+	background:url('../softphone/teleLogout.png') no-repeat center center;
+	}
+	
+	.ready{
+	background:url('../softphone/switching.png') no-repeat center center;
+	}
+	.dtmf{
+	background:url('../softphone/teleDial.png') no-repeat center center;
+	}
+	.conference{
+	background:url('../softphone/conference1.gif') no-repeat center center;
+	}
+	.consult{
+	background:url('../softphone/sleep1.gif') no-repeat center center;
+	}
+	.answer{
+	background:url('../softphone/teleAnswer.png') no-repeat center center;
+	}
+	.transfer{
+	background:url('../softphone/switching.png') no-repeat center center;
+	}
+	.reconnect{
+	background:url('../softphone/teleCancel.png') no-repeat center center;
+	}
+	.dial{
+	background:url('../softphone/teleDial.png') no-repeat center center;
+	}
+	.hold{
+	background:url('../softphone/teleHold.png') no-repeat center center;
+	}
+	.chatAnswer{
+	background:url('../softphone/chatAnswer.png') no-repeat center center;
+	}
+	.release{
+	background:url('../softphone/teleHangUp.png') no-repeat center center;
+	}
+	.phoneNoinput{
+	border:0;
+	background:url('../softphone/PhoneNumber.png') no-repeat center center;
+	}
+	.webchat{
+		background:url('../softphone/internet.png') no-repeat center center;
+	}
+	.phone{
+		background:url('../softphone/phone.png') no-repeat center center;
+	}
+	.weixin{
+		background:url('../softphone/weixin.png') no-repeat center center;
+	}
+	.msg{
+		background:url('../softphone/msg.png') no-repeat center center;
+	}

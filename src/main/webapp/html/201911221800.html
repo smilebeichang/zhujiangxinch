@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <title>五个div面板</title>
+    <script type="text/javascript" src="../js/sunriseui.js"></script>
+    <script type="text/javascript" src="../js/sunriseui.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="onlinephone.css"  />
+    <link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../themes/icon.css">
+    <!--字体大小颜色样式-->
+    <link rel="stylesheet" type="text/css" href="../css/tradeCss.css" />
+</head>
+<body>
+    <div class="easyui-layout" style="width: 100%;height: 700px">
+        <div data-options="region:'north'" style="height: 100px">
+            <a class="easyui-layout" style="width: 100%; height: 50px;" data-options="border:false">
+                <a id="login" href="#" plain="true" class="easyui-linkbutton"
+                   data-options="iconCls:'weixin',size:'large',group:'g1',disabled:true">签入</a>
+                <a id="ready" href="#" plain="true" class="easyui-linkbutton" onclick="javascript:ready()"
+                   data-options="iconCls:'ready', size:'large',group:'g1',disabled:true">就绪</a>
+                <a id="aux" href="#" plain="true" class="easyui-linkbutton" onclick="javascript:aux()"
+                   data-options="iconCls:'hold',size:'large',group:'g1',disabled:true">小休</a>
+                <a id="syn" href="#" plain="true" class="easyui-linkbutton" onclick="javascript:syn()"
+                   data-options="iconCls:'dtmf',size:'large',group:'g1',disabled:true">协同码生成</a>
+            </a>
+        </div>
+        <div data-options="region:'center'" class="easyui-layout" style="width: 100%;height: 100%;">
+            <div data-options="region:'north'" class="easyui-layout" style="width: 100%;height: 50%;">
+                <div data-options="region:'center'" style="width: 50%;height: 50%;">
+                    <div class="">
+                        <form id="trans12">
+                            <table class="datagrid_table_1">
+                                <tr>
+                                    <td><input class="easyui-textbox" data-options="prompt:'支持模糊查询'"></td>
+                                    <th>编号：</th>
+                                    <td><input class="easyui-textbox"></td>
+
+                                    <td>
+                                        <a class="easyui-linkbutton" data-options="iconCls:'icon-edit'" >修改</a>
+                                        <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" >删除</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                    <table id="12" class="easyui-datagrid datagrid_table_1" data-options="rownumbers:true,url:getHost(HostAddress.robot)+'/synonym/getRbSynonymConfigs',method:'post'" style="width: 100%;height: 100%">
+                        <thead>
+                        <tr>
+                            <th data-options="field:'words',width:100">名字1</th>
+                            <th data-options="field:'status',width:300">名字1</th>
+                            <th data-options="field:'method',width:300">名字1</th>
+                            <th data-options="field:'name',width:300">名字1</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div data-options="region:'west'" style="width: 50%;height: 50%;">
+                    <div class="">
+                        <form id="trans23">
+                            <table class="datagrid_table_1">
+                                <tr>
+                                    <th>创建日期：</th>
+                                    <td><input class="easyui-datebox">-至-<input class="easyui-datebox"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a class="easyui-linkbutton" data-options="iconCls:'icon-search'" >查询</a>
+                                        <a class="easyui-linkbutton" data-options="iconCls:'icon-add'" >新增</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                    <table id="3" class="easyui-datagrid datagrid_table_1" data-options="rownumbers:true,url:getHost(HostAddress.robot)+'/synonym/getRbSynonymConfigs',method:'post'" style="width: 100%;height: 100%">
+                        <thead>
+                        <tr>
+                            <th data-options="field:'words',width:100">名字1</th>
+                            <th data-options="field:'status',width:300">名字1</th>
+                            <th data-options="field:'method',width:300">名字1</th>
+                            <th data-options="field:'name',width:300">名字1</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div data-options="region:'center'" class="easyui-layout" style="width: 100%;height: 50%;">
+                <div data-options="region:'center'" style="width: 50%;height: 50%;">
+                    <div class="">
+                        <form id="trans2">
+                            <table class="datagrid_table_1">
+                                <tr>
+                                    <td><input class="easyui-textbox" data-options="prompt:'支持模糊查询'"></td>
+                                    <th>编号：</th>
+                                    <td><input class="easyui-textbox"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a class="easyui-linkbutton" data-options="iconCls:'icon-edit'" >修改</a>
+                                        <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" >删除</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                    <table id="1" class="easyui-datagrid datagrid_table_1" data-options="rownumbers:true,url:getHost(HostAddress.robot)+'/synonym/getRbSynonymConfigs',method:'post'" style="width: 100%;height: 100%">
+                        <thead>
+                        <tr>
+                            <th data-options="field:'words',width:100">名字1</th>
+                            <th data-options="field:'status',width:300">名字1</th>
+                            <th data-options="field:'method',width:300">名字1</th>
+                            <th data-options="field:'name',width:300">名字1</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div data-options="region:'west'" style="width: 50%;height: 50%;">
+                    <div class="">
+                        <form id="trans">
+                            <table class="datagrid_table_1">
+                                <tr>
+                                    <th>创建日期：</th>
+                                    <td><input class="easyui-datebox">-至-<input class="easyui-datebox"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a class="easyui-linkbutton" data-options="iconCls:'icon-search'" >查询</a>
+                                        <a class="easyui-linkbutton" data-options="iconCls:'icon-add'" >新增</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                    <table id="" class="easyui-datagrid datagrid_table_1" data-options="rownumbers:true,url:getHost(HostAddress.robot)+'/synonym/getRbSynonymConfigs',method:'post'" style="width: 100%;height: 100%">
+                        <thead>
+                        <tr>
+                            <th data-options="field:'words',width:100">名字1</th>
+                            <th data-options="field:'status',width:300">名字1</th>
+                            <th data-options="field:'method',width:300">名字1</th>
+                            <th data-options="field:'name',width:300">名字1</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <div data-options="region:'west'" style="width: 200px">
+            <ul class="easyui-tree" data-options="url:'../tree_data2.json',animate:true"></ul>
+        </div>
+    </div>
+    <div hidden="true"><span>111222</span></div>
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        let iurl = 'zzlc/assets/images/user.png';
+        let html =
+            '<div class="message message-right">'+
+            '<img class="avatar" alt="" src="'+iurl+'">'+
+            '<div class="message-out">'+
+            '<div class="message-content">'+
+            '11222333' +
+            '</div>'+
+            '</div>'+
+            '</div>';
+        appendhtml(html);    //方法未定义
+        function appendhtml(html){
+            $("#content").append(html);
+        };
+    </script>
+</head>
+<body>
+<!--
+<img src="zzlc/assets/images/user.png">
+-->
+<div  style="background-color: #a4e9c1;width: 300px;height: 200px" ></div>
+    <div class="message message-right">
+        <img id="content" class="avatar" alt="" src="'+iurl+'">
+        <div class="message-out">
+            <div class="message-content">
+                11222333
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

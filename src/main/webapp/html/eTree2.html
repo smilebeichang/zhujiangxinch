@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>eTree2</title>
+    <script type="text/javascript" src="../js/sunriseui.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../js/eTree2.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="onlinephone.css"  />
+</head>
+<body>
+    <div class="easyui-layout" style="width: 100%;height: 700px">
+        <div data-options="region:'west'" style="height: 100%;width: 20%">
+            <div>
+                <input class="easyui-combobox" data-options="valueField:'chanel',textField:'name',panelHeight:'auto'"  id="chanel1">
+            </div>
+            <ul class="easyui-tree" id="eTree" data-options="animate:true,onContextMenu:permissionMenu"></ul>
+        </div>
+        <div data-options="region:'center'" class="datagrid" style="height: 100%;width: 80%">
+            <form id="dg" class="easyui-form">
+                <table>        <!--table可以显示table样式，否则一行并行排列-->
+                    <tr>
+                        <th>内容：</th>
+                        <td><input class="easyui-textbox" name="question"></td>
+                    </tr>
+                    <tr>
+                        <th>渠道：</th>
+                        <td><input class="easyui-combobox" name="channelNo" id="chanel2" data-options="valueField:'chanel',textField:'name',panelHeight:'auto'"></td>
+                    </tr>
+                    <tr>
+                        <th>序号：</th>
+                        <td><input class="easyui-textbox" name="orderNo"></td>
+                    </tr>
+                    <tr>
+                        <th>更新人工号：</th>
+                        <td><input class="easyui-textbox" name="updateAccountCode"></td>
+                    </tr>
+                    <tr>
+                        <th>更新时间：</th>
+                        <td><input class="easyui-textbox" name="updateDate"></td>
+                    </tr>
+                    <tr>
+                        <th>答案：</th>
+                        <td id="answer"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+
+    <div id="pm" class="easyui-menu" style="width: 120px">
+        <div  data-options="iconCls:'icon-add'">新增权限</div>
+        <div  data-options="iconCls:'icon-edit'">修改权限</div>
+        <div  data-options="iconCls:'icon-cancel'">删除权限</div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>tree</title>
+    <script type="text/javascript" src="../js/sunriseui.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../js/easyuiTree.js"></script>
+
+
+    <link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="onlinephone.css"  />
+</head>
+<body>
+    <div class="easyui-layout"  style="width: 100%;height: 800px">
+        <div data-options="region:'west'" title="导航树" style="height: 100%;width: 20%">
+            <div id="queryBar">
+                <input class="easyui-combobox" id="channelNo" data-options="panelHeight:'auto',panelMaxHeight:120,valueField:'chanel',textField:'name'">
+            </div>
+            <ul id="eTree" class="easyui-tree" data-options="animate:true,onContextMenu:treeContextMenu" ></ul>
+        </div>
+        <div data-options="region:'center'" title="导航信息" style="height: 100%;width: 80%">
+            <div class="easyui-panel div_container">
+                <form id="dg" class="easyui-form" method="post">
+                    <table>
+                        <tr>
+                            <th>内容：</th>
+                            <td><input class="easyui-textbox" name="question" name="code"></td>
+                        </tr>
+                        <tr>
+                            <th>渠道：</th>
+                            <td><input class="easyui-combobox" name="channelNo" id="chanelS" data-options="panelHeight:'auto',valueField:'chanel',textField:'name'"></td>
+                        </tr>
+                        <tr>
+                            <th>序号：</th>
+                            <td><input class="easyui-textbox" name="channelNo"></td>
+                        </tr>
+                        <tr>
+                            <th>更新人工号：</th>
+                            <td><input class="easyui-textbox" name="updateAccountCode"></td>
+                        </tr>
+                        <tr>
+                            <th>更新时间：</th>
+                            <td><input class="easyui-textbox" name="updateDate"></td>
+                        </tr>
+                        <tr>
+                            <th>答案：</th>
+                            <td id="answer"></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 权限右键菜单 -->
+    <div id="mm" class="easyui-menu" style="width: 120px;">
+        <div  data-options="iconCls:'icon-add'">新增导航</div>
+        <div  data-options="iconCls:'icon-edit'">修改导航</div>
+        <div  data-options="iconCls:'icon-edit'">删除导航</div>
+    </div>
+
+</body>
+</html>

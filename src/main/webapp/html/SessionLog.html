@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>sessionLog</title>
+    <!--五个js,四个css-->
+    <script type="text/javascript" src="../js/sunriseui.js"></script>
+    <script type="text/javascript" src="../js/sunrise.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="js/sessionLog.js"></script>
+
+
+    <link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../css/tradeCss.css" />
+</head>
+<body>
+    <div class="easyui-layout" style="height: 700px;width: 100%">
+        <div data-options="region:'center'" style="width: 100%;height: 100%">
+            <div class="toolbar_div_1">
+                <form id="sessionLogToolbar">
+                    <table class="datagrid_table_1">
+                        <tr>
+                            <th>客户昵称：</th>
+                            <td><input class="easyui-textbox" id="custName" data-options="prop:'支持模糊查询'"></td>
+                            <th>访问时间：</th>
+                            <td><input class="easyui-datebox" id="beginTime">-<input class="easyui-datebox" id="endTime"></td>
+                            <td colspan="2" style="white-space: nowrap;">
+                                <div style="float: left">
+                                    <input class="easyui-checkbox" name="noAnswerNum" value="1" label="未命中" id="noAnswerNum">&nbsp;
+                                </div>
+                                <div style="float: left;padding-left: 20px;">
+                                    <input class="easyui-checkbox" name="likeNum" value="1" label="点赞" id="likeNum">
+                                </div>
+                                <div style="float: left;padding-left: 20px;">
+                                    <input class="easyui-checkbox" name="treadNum" value="1" label="点踩" id="treadNum">
+                                </div>
+                            </td>
+                            <th colspan="4">
+                                <a href="#" onclick="searchSessionLog()" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true">查询</a>
+                            </th>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <table class="easyui-datagrid datagrid_table_1" id="sessionLogList">
+                <thead>
+                    <th data-options="field:'channelNo',width:300">渠道</th>
+                    <th data-options="field:'openId',width:100">微信ID</th>
+                    <th data-options="field:'custName',width:300">客户昵称</th>
+                    <th data-options="field:'beginTime',width:300">开始时间</th>
+                    <th data-options="field:'msgNum',width:100">消息数</th>
+                    <th data-options="field:'likeNum',width:100">点赞数</th>
+                    <th data-options="field:'opt',width:100,formatter:searchDetailFormatter">操作</th>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <!--
+    <div id="win" class="easyui-window" title="聊天记录" style="width:600px;height:500px"
+         data-options="iconCls:'icon-save',modal:true,closed:true">
+        <div class=" easyui-layout" data-options="fit:true" >
+            <div data-options="region:'center'" style="padding:10px;" class ='div_content'>
+                <div class="content" id="content"></div>
+            </div>
+        </div>
+    </div>
+-->
+
+</body>
+</html>

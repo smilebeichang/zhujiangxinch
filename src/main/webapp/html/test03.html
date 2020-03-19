@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test03</title>
+    <script type="text/javascript" src="../js/sunriseui.js"></script>
+    <script type="text/javascript" src="../js/sunrise.js"></script>
+    <link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../themes/icon.css">
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="onlinephone.css"  />
+    <link rel="stylesheet" type="text/css" href="../css/tradeCss.css" />
+    <script type="text/javascript" src="../js/test03.js" ></script>
+</head>
+<body>
+    <div class="easyui-layout" style="height: 800px;width: 100%">
+        <div data-options="region:'north',split:true" style="height: 100px">
+            <a style="width: 100%; height: 50px;">
+                <a id="login" href="#" plain="true" class="easyui-linkbutton"
+                   data-options="iconCls:'phone',size:'large',group:'g1',disabled:true">签入</a>
+                <a href="#" plain="true" class="easyui-linkbutton"
+                   data-options="iconCls:'ready',size:'large',group:'g1'">签出</a>
+                <a href="#" plain="true" class="easyui-linkbutton"
+                   data-options="iconCls:'conference',size:'large',group:'g1'">就绪</a>
+                <a href="#" plain="true" class="easyui-linkbutton"
+                   data-options="iconCls:'answer',size:'large',group:'g1'">应答</a>
+                <a href="#" plain="true" class="easyui-linkbutton"
+                   data-options="iconCls:'dial',size:'large',group:'g1'">会议</a>
+                <a href="#" plain="true" class="easyui-linkbutton" onclick="javascript:foreachArr()"
+                   data-options="iconCls:'icon-add',size:'large',group:'g1'">js遍历数组</a>
+                <a href="#" plain="true" class="easyui-linkbutton" onclick="javascript:foreachObj()"
+                   data-options="iconCls:'icon-ok',size:'large',group:'g1'">js遍历对象</a>
+            </a>
+        </div>
+        <div data-options="region:'west',split:true" style="width: 200px">
+            <ul class="easyui-tree" data-options="url:'tree_data2.json'"></ul>
+        </div>
+        <div data-options="region:'center'" class="easyui-layout" style="height: 100%;width: 100%">
+            <div data-options="region:'north',split:true" style="height: 50%">
+                <div class="toolbar_div_2">
+                    <form id="tb_tran_form">
+                        <table class="datagrid_table_1">
+                            <tr>
+                                <th>类型</th>
+                                <td><input class="easyui-textbox" id="type" name="type"></td>
+                                <th>状态</th>
+                                <td><input class="easyui-combobox" id="status" name="type"></td>
+                                <th>内容</th>
+                                <td><input class="easyui-textbox" id="content" name="type"></td>
+                                <td>
+                                    <a href="#" class="easyui-linkbutton" onclick="javascript:search()"
+                                        data-options="iconCls:'icon-search'">查询</a>
+                                    <a href="#" class="easyui-linkbutton" onclick="javascript:search()"
+                                       data-options="iconCls:'icon-add'">新增</a>
+                                    <a href="#" class="easyui-linkbutton" onclick="javascript:search()"
+                                       data-options="iconCls:'icon-edit'">修改</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <table id="list" class="easyui-datagrid datagrid_table_1">
+                    <thead>
+                        <tr>
+                            <th data-options="field:'type',width:300">类型</th>
+                            <th data-options="field:'name',width:300">名称</th>
+                            <th data-options="field:'status',width:300">状态</th>
+                            <th data-options="field:'name',width:300">时间</th>
+                            <th data-options="field:'status',width:300">备注</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div data-options="region:'west',split:true" style="height: 50%;width: 50%">
+                <div class="toolbar_div_1">
+                    <form id="tb_form2">
+                        <table class="datagrid_table_1">
+                            <tr>
+                                <th>类型</th>
+                                <td><input class="easyui-combobox" name="type" id="type2"></td>
+                                <td>
+                                    <a href="#" class="easyui-linkbutton" onclick="javascript:search()"
+                                        data-options="iconCls:'icon-search'">查询</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <table id="list2" class="easyui-datagrid datagrid_table_1">
+                    <thead>
+                        <tr>
+                            <th data-options="field:'type',width:300">类型</th>
+                            <th data-options="field:'content',width:300">内容</th>
+                            <th data-options="field:'status',width:300">状态</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div data-options="region:'center',split:true" style="height: 50%;width: 50%">
+                <div class="toolbar_div_1">
+                    <form id="tb_form3">
+                        <table class="datagrid_table_1">
+                            <tr>
+                                <th>类型</th>
+                                <td><input class="easyui-combobox" name="type" id="type3"></td>
+                                <td>
+                                    <a href="#" class="easyui-linkbutton" onclick="javascript:search()"
+                                       data-options="iconCls:'icon-search'">查询</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <table id="list3" class="easyui-datagrid datagrid_table_1">
+                    <thead>
+                    <tr>
+                        <th data-options="field:'type',width:300">类型</th>
+                        <th data-options="field:'content',width:300">内容</th>
+                        <th data-options="field:'status',width:300">状态</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>

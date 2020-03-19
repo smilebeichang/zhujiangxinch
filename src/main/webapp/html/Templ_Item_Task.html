@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>评分表—项目表—任务表</title>
+    <!--五个js,四个css-->
+    <script type="text/javascript" src="../js/sunriseui.js"></script>
+    <script type="text/javascript" src="../js/sunrise.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../js/Templ_Item_Task.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="onlinephone.css"  />
+    <link rel="stylesheet" type="text/css" href="../css/tradeCss.css" />
+
+</head>
+<body>
+    <div class="easyui-layout" style="height: 800px;width: 100%">
+        <div data-options="region:'north',split:true" title="软电话" style="height: 100px">
+            <span>test1</span>
+        </div>
+        <!--ztree或者etree都可以从后台查询，然后页面动态显示-->
+        <div data-options="region:'west',split:true" title="ZTree" style="width: 200px" >
+            <span>test3</span>
+        </div>
+        <div data-options="region:'center'" title="业务中心" style="height: 100%;width: 100%" class="easyui-layout" >
+            <!--north-->
+            <div data-options="region:'north',split:true,border:false,title:'评分表列表'"
+                 style="height: 50%; width: 100%;"  >
+                <div class="toolbar_div_2">
+                    <form id="query_form_template">
+                        <table class="datagrid_table_1">
+                            <tr>
+                                <th>类型</th>
+                                <td><input id="type_template" class="easyui-combobox"></td>
+                                <th>状态</th>
+                                <td><input id="status_template" class="easyui-combobox"></td>
+                                <th>名称</th>
+                                <td><input id="name_template" class="easyui-textbox"></td>
+                                <td>
+                                <a href="#" class="easyui-linkbutton" onclick="javascript:searchTemplate()"
+                                   data-options="iconCls:'icon-search'">查询</a>
+                                <a href="#" class="easyui-linkbutton" onclick="javascript:saveOrUpdateTemplate(false)"
+                                   data-options="iconCls:'icon-add'">新增</a>
+                                <a href="#" class="easyui-linkbutton" onclick="javascript:saveOrUpdateTemplate(true)"
+                                   data-options="iconCls:'icon-edit'">修改</a>
+                                <a href="#" class="easyui-linkbutton" onclick="javascript:deleteTemplate()"
+                                   data-options="iconCls:'icon-cancel'">删除</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <table id="list_template" class="easyui-datagrid datagrid_table_1" data-options="rownumbers:true,onSelect:link">
+                    <thead>
+                    <tr>
+                        <th data-options="field:'templateType',width: 200">评分表类型</th>
+                        <th data-options="field:'templateName',width: 200">评分表名称</th>
+                        <th data-options="field:'status',width: 200">状态</th>
+                        <th data-options="field:'createDate',width: 200">创建时间</th>
+                        <th data-options="field:'remark',width: 200">备注</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+
+            <!--center-->
+            <div  data-options="region:'center',split:true,border:false,title:'已关联指标'"
+                  class="div_color_1" style="height: 50%; width: 55%;">
+                <div id="tb_trans_template_item" class="toolbar_div_2">
+                    <form id="query_form_template_item">
+                        <table class="datagrid_table_1">
+                            <tr>
+                                <th>类型</th>
+                                <td><input id="type_templateItem" class="easyui-combobox"></td>
+                                <td>
+                                <a href="#" class="easyui-linkbutton" onclick="javascript:searchTemplateItem()"
+                                   data-options="iconCls:'icon-search'">查询</a>
+                                <a href="#" class="easyui-linkbutton" onclick="javascript:deleteTemplateItem()"
+                                   data-options="iconCls:'icon-cancel'">删除</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <table id="list_template_item" class="easyui-datagrid datagrid_table_1" data-options="rownumbers:true">
+                    <thead>
+                    <tr>
+                        <th data-options="field:'itemType'" style="width: 200px">指标类型</th>
+                        <th data-options="field:'itemContent'" style="width: 200px">指标内容</th>
+                        <th data-options="field:'maxScore'" style="width: 200px">最高分</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+
+            <!--east-->
+            <div data-options="region:'east',split:true,border:false,title:'未关联指标'"
+                 class="div_color_1" style="width: 45%; height: 50%;">
+                <div id="tb_trans_item" class="toolbar_div_2">
+                    <form id="query_form_item">
+                        <table class="datagrid_table_1">
+                            <tr>
+                                <th>类型</th>
+                                <td><input id="type_item" class="easyui-combobox"></td>
+                                <th>内容</th>
+                                <td><input id="type_item3" class="easyui-textbox"></td>
+                                <td>
+                                <a href="#" class="easyui-linkbutton" onclick="javascript:searchTemplate()"
+                                   data-options="iconCls:'icon-search'">查询</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <table id="list_item" class="easyui-datagrid datagrid_table_1" data-options="rownumbers:true">
+                    <thead>
+                    <tr>
+                        <th data-options="field:'itemType'" style="width: 200px">指标类型</th>
+                        <th data-options="field:'itemContent'" style="width: 200px">指标内容</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+    <div id="openWin" class="easyui-dialog">
+        <form id="form">
+            <table>
+                <tr><input id="id1" class="easyui-textbox" name="code">名称</tr>
+                <tr><input class="easyui-checkbobox" name="status">状态</tr>
+                <tr><input id="templateName1" class="easyui-textbox" name="templateName">名称</tr>
+                <tr><a class="easyui-linkbutton" href="#" onclick="saveTemplate()">确认</a></tr>
+                <tr><a class="easyui-linkbutton" href="#" onclick=$('#openWin').dialog('close')>取消</a></tr>
+            </table>
+        </form>
+    </div>
+
+</body>
+</html>

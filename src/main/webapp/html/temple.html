@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!--east-->
+<div id="layout_center_grid" class="div_color_1"
+     style="width: 50%; height: 45%;"
+     data-options="region:'east',split:true,border:false,title:'未关联指标'">
+    <div title="未关联指标" style="padding:10px">
+        <div id="tb_trans_qcTemplate3" class="toolbar_div_2">
+            <form id="query_form_qcTemplate3">
+                <div id="unchooseitemtoolbar">
+                    <form id="itemSearchForm">
+                        &nbsp;类型：<input class="easyui-combobox" name="itemType" style="width: 180px;" data-options="valueField: 'code',textField: 'value',panelHeight:260,data: getParameters('root/BusinessPara/UOMP/qcmg/itemType','','全部')" />
+                        &nbsp;内容：<input class="easyui-textbox" name="itemContent" data-options="prompt:'支持模糊查询'" />
+                        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true" onclick="queryQcItem();">查询</a>
+                        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true" onclick="javascript:saveQcTemplateItem()">关联</a>
+                    </form>
+                </div>
+            </form>
+        </div>
+        <table id="unchooseitemlist" class="easyui-datagrid datagrid_table_1"
+               data-options="idField:'code',nowrap:false">
+            <thead>
+            <tr>
+                <th data-options="field:'ck',checkbox:true"></th>
+                <th data-options="field:'itemType',width:100,parameter:'root/BusinessPara/UOMP/qcmg/itemType'">指标类型</th>
+                <th data-options="field:'itemContent',width:350">指标内容</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<!--center-->
+<div  class="div_color_1" style="height: 50%; width: 55%;"
+      data-options="region:'center',split:true,border:false,title:'已关联指标'">
+    <div title="已关联指标" style="padding:10px">
+        <div id="tb_trans_qcTemplate2" class="toolbar_div_2">
+            <form id="query_form_qcTemplate2">
+                <div id="itemtoolbar">
+                    &nbsp;类型：<input class="easyui-combobox" id="itemType" style="width: 180px;"
+                                    data-options="multiple:true,valueField: 'code',textField: 'value',panelHeight:260,data: getParameters('root/BusinessPara/UOMP/qcmg/itemType','','请选择')" />
+                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true" onclick="queryQcTemplateItems();">查询</a>
+                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-delete',plain:true" onclick="deleteQcTemplateItem();">删除</a>
+                    <!-- 			<a href="#" -->
+                    <!-- 			class="easyui-linkbutton" -->
+                    <!-- 			data-options="iconCls:'icon-save',plain:true" -->
+                    <!-- 			onclick="$('#itemlist').datagrid('endEdit',editIndex);">保存编辑</a> -->
+                </div>
+            </form>
+        </div>
+        <table id="itemlist" class="easyui-datagrid datagrid_table_1"
+               data-options="nowrap:false,onClickRow:chooseItemsGridClicker,onAfterEdit:chooseItemsAfterEditor"
+               style="width: 100%; height: 100%">
+            <thead>
+            <tr>
+                <th data-options="field:'itemType',width:100,parameter:'root/BusinessPara/UOMP/qcmg/itemType'">指标类型</th>
+                <th data-options="field:'itemContent',width:250">指标内容</th>
+                <th data-options="field:'maxScore',width:60">最高分</th>
+                <th data-options="field:'passScore',width:60,styler:bgcolorStyler">合格分</th>
+                <th data-options="field:'minScore',width:60,styler:bgcolorStyler">最低分</th>
+                <th data-options="field:'remark',width:200">备注</th>
+                <th data-options="field:'orderNum',width:50,editor:'numberspinner'">排序</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+
+
+</body>
+</html>

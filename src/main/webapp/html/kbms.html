@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>知识库</title>
+    <script type="text/javascript" src="../js/sunriseui.js"></script>
+    <script type="text/javascript" src="../js/sunrise.js"></script>
+    <link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../themes/icon.css">
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="onlinephone.css"  />
+    <link rel="stylesheet" type="text/css" href="../css/tradeCss.css" />
+    <link rel="stylesheet" type="text/css" href="../css/sunrise.css" />
+    <link rel="stylesheet" type="text/css" href="../css/kbms.css" />
+</head>
+<body>
+    <div class="easyui-layout" style="height: 100%;width: 100%" data-options="fit:true">
+
+        <div data-options="region:'north',split:true, title:'软电话'" style="height: 100px;width: 100%">
+            <a href="#" class="easyui-linkbutton" data-options="iconCls:'ready',size:'large'">签出</a>
+            <a href="#" class="easyui-linkbutton" data-options="iconCls:'dial',size:'large'">签入</a>
+            <a href="#" class="easyui-linkbutton" data-options="iconCls:'conference',size:'large'">签出</a>
+            <a href="#" class="easyui-linkbutton" data-options="iconCls:'phone',size:'large'">忙碌</a>
+            <a href="#" class="easyui-linkbutton" data-options="iconCls:'answer',size:'large'">签出</a>
+        </div>
+
+        <div  data-options="region:'west',split:true, title:'知识菜单'" style="width: 15%">
+            <ul class="easyui-tree" data-options="url:'tree_data2.json'"></ul>
+        </div>
+
+        <div data-options="region:'center',title:'知识检索'" style="width: 85%">
+            <div  class="easyui-layout" style="height: 100%;width: 100%">
+                <div id="head" data-options="region:'north'" align="center" style="height: 25%;width: 100%">
+                    <div id="box1">
+                        <!--label是个Ztree,url获得数据-->
+                        <label><input id="tree" class="easyui-combotree" data-options="url:'tree_data2.json',
+                            multiple:true,width:200,height:32"></label>
+                        <!--lable是输入框-->
+                        <label><input id="searchbar" class="easyui-textbox" data-options="width:200,height:32,prompt:'支持模糊搜索'"></label>
+
+                        <!--两个a超链接:open+dosearch()-->
+                        <a class="B0088" onclick="$('#seniorsearchWin').window('open')">高级搜索</a>
+                        <a class="B0088" onclick="dosearch()">搜索</a>
+                    </div>
+                    <!--div1和div2为什么会并列显示-->
+                    <div id="box2">
+                        <label><input type="radio" name="searchType" value="knowledgeContents;knowledgeTitle;knowledgeAbstract;knowledgeLabel;keyWord;attachment" checked />全文</label>
+                        <label><input type="radio" name="searchType" value="knowledgeTitle" />标题</label>
+                        <br />    <!--br  换行-->
+                        <label><input type="radio" name="searchType" value="knowledgeAbstract" />摘要</label>
+                        <label><input type="radio" name="searchType" value="knowledgeContents" />正文</label>
+                        <br />
+                        <label><input type="radio" name="searchType" value="knowledgeLabel" />标签</label>
+                        <label><input type="radio" name="searchType" value="attachment" />附件</label>
+                        <br />
+                        <label style="margin-left: -43px"><input type="radio" name="searchType" value="keyWord" />关键字</label>
+                    </div>
+                </div>
+
+                <div data-options="region:'center',border:false" style="height: 70%;width: 100%">
+                    <div class="easyui-tabs" id="tabs" style="width: 100%;height: 100%">
+                        <div id="home" title="首页">
+                            <iframe src="knowledge.html" data-options="border:false" style="height: 180%;width: 100%" scrolling="no"></iframe>
+                        </div>
+
+                        <div title="搜索"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

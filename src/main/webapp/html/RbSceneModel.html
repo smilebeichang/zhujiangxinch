@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RbSceneModel</title>
+    <script type="text/javascript" src="../js/sunrise.js"></script>
+    <script type="text/javascript" src="../js/sunriseui.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../js/sunrise-framework.js"></script>    <!--map.push  且注意顺序-->
+    <script type="text/javascript" src="js/RbSceneModel.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../css/tradeCss.css" />
+    <link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../themes/icon.css">
+</head>
+<body class="easyui-layout" data-options="fit:true" style="width: 100%;height: 700px">
+
+    <div data-options="region:'center'" style="width: 50%;height: 100%">
+        <table id="query_list"  class="easyui-datagrid" title="语义模型管理" style="width:100%;height:100%"
+               data-options="rownumbers:true,fitColumns:true,singleSelect:true,pagination:true,onSelect:link,
+                    url:getHost(HostAddress.robot2) + '/navigation/rbSceneModel/selectRbSceneModelPageByBean',method:'post',toolbar:'#tb'">
+            <thead>
+            <tr>
+                <th data-options="field:'name'" style="width:10px;">名称</th>
+                <th data-options="field:'mark'" >备注</th>
+                <th data-options="field:'createDate'" >创建日期</th>
+                <th data-options="field:'status'" >状态</th>
+            </tr>
+            </thead>
+        </table>
+        <div id="tb" style="padding:2px 5px;">
+            <label>名称：</label><input class="easyui-textbox" id="name"/>
+            <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'"  onclick="queryRbSceneModel();">搜索</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-add"  onclick="saveOrupdateRbSceneModel(false);">新增近义词</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-edit"  onclick="saveOrupdateRbSceneModel(true);">修改近义词</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-remove"  onclick="deleRbSceneModel();">删除近义词</a>
+        </div>
+    </div>
+
+    <div data-options="region:'east'" style="width: 50%;height: 100%">
+        <table id="query_list2"  class="easyui-datagrid" title="语义规则" style="width:100%;height:100%"
+               data-options="region:'center',onClickRow:regularRowClicker,singleSelect:true,fit:true,fitColumns:true,pagination:true,toolbar:'#tb2'">
+            <thead>
+            <tr>
+                <th data-options="field:'content',width:10,editor:'textbox'">规则</th>
+                <th data-options="field:'createrName',nowrap:false">创建者</th>
+            </tr>
+            </thead>
+        </table>
+        <div id="tb2" style="padding:2px 5px;">
+            <!--好奇怪，为什么data_option不可以用-->
+            <a href="#" class="easyui-linkbutton" iconCls="icon-add"  onclick="saveRbSceneLineRegular();">新增</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-cancel"  onclick="deleteRbSceneLineRegular();">删除</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-add"  onclick="ShortSaveRbSceneLineRegular();">暂存</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-add"  onclick="LoneSaveRbSceneLineRegular();">保存</a>
+            <label>名称：</label><input class="easyui-textbox" id="name2"/>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-search"  onclick="queryRbSceneLineRegular();">搜索</a>
+        </div>
+    </div>
+</body>
+</html>

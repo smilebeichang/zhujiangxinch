@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>三个div面板</title>
+    <script type="text/javascript" src="../js/sunriseui.js"></script>
+    <link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../themes/icon.css">
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="onlinephone.css"  />
+    <script type="text/javascript" src="../js/jqPaginator.js"></script>
+    <script type="text/javascript" src="../js/CustomDictionary.js"></script>
+    <script type="text/javascript" src="../js/QcItem.js"></script>
+    <script type="text/javascript" src="../js/QcCase.js"></script>
+
+    <!--字体大小颜色样式-->
+    <link rel="stylesheet" type="text/css" href="../css/tradeCss.css" />
+    <style type="text/css">
+        .button-green span {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="easyui-layout" style="width:100%;height:700px;">
+    <!--在线软电话区开始（北）  -->
+    <div data-options="region:'north',split:true" title="在线软电话区" style="height:100px">
+        <a class="easyui-layout" style="width: 100%; height: 50px;" data-options="border:false">
+            <!--plain="true" 窗体主体部分背景颜色透明-->
+            <a id="login" href="#" plain="true" class="easyui-linkbutton"
+               data-options="iconCls:'weixin',size:'large',group:'g1',disabled:true">签入</a>
+            <a id="ready" href="#" plain="true" class="easyui-linkbutton" onclick="ready()"
+               data-options="iconCls:'ready', size:'large',group:'g1',disabled:true">就绪</a>
+            <a id="aux" href="#" plain="true" class="easyui-linkbutton" onclick="aux()"
+               data-options="iconCls:'hold',size:'large',group:'g1',disabled:true">小休</a>
+            <a id="syn" href="#" plain="true" class="easyui-linkbutton" onclick="syn()"
+               data-options="iconCls:'dtmf',size:'large',group:'g1',disabled:true">协同码生成</a>
+            <a id="monitor" href="#" plain="true"  class="easyui-linkbutton" onclick="forceWin()"
+               data-options="iconCls:'conference',size:'large',group:'g1',disabled:true">监听</a>
+            <a style="vertical-align: middle;"><span id="agentState" style="font-weight:bold; color: #ea0b0b;font-size:18px">未登录</span></a>
+        </a>
+    </div>
+    <!-- 在线软电话区结束  -->
+    <!--左侧ztree开始（东）-->
+    <div data-options="region:'west',split:true" title="菜单信息" style="width:200px;">
+        <ul class="easyui-tree" data-options="url:'tree_data2.json',method:'get',animate:true"></ul>
+    </div>
+    <!--左侧ztree结束-->
+    <!--批量测试（中心）tabs下有五个div面板-->
+    <div data-options="region:'center'">
+        <div class="easyui-tabs" style="width:100%;height:100%">
+            <div title="指标维护" style="padding:10px;height: 100px;width: 100%">
+            <div id="tb-trans_qcItem" class="toolbar_div_2" >
+                <form id="query_form_qcItem">
+                    <a href="#" class="easyui-linkbutton" iconCls="icon-large-shapes" plain="true" onclick="saveOrUpdateQcItem(2);">详情</a>
+                    <a href="#" class="easyui-linkbutton" iconCls="icon-large-smartart" plain="true" onclick="ajax();">ajax</a>
+                    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="saveOrUpdateQcItem(0);">新增</a>
+                    <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="saveOrUpdateQcItem(1);">修改</a>
+                    <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteQcItem();">失效</a>
+                    <a href="#" class="easyui-linkbutton" iconCls="icon-large-clipart" plain="true" onclick="timestamp();">获取时间戳</a>
+                    <a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="queryQcItem();">搜索</a>
+                    <tr>
+                    <th>类型：</th>
+                    <td>
+                        <!--写死-->
+                        <select class="easyui-combobox"  id="itemType" name="channelNo" style="width:150px">
+                            <option value="">全部</option>
+                            <option value="1Greeting">开场白</option>
+                            <option value="ClientInfo">获取客户个人信息</option>
+                            <option value="ServiceAtti">服务态度</option>
+                            <option value="CommSkill">理解能力</option>
+                            <option value="Ending">结束语</option>
+                        </select>
+                    </td>
+                    <td>
+                        <!--通过URL加载远程列表数据。-->
+                        <input class="easyui-combobox" name="language" style="width:20%;" data-options="
+                            url:getHost(HostAddress.robot)+'/qcItem/getQcItemPageByBean',
+                            method:'post',
+                            valueField:'itemType',
+                            textField:'itemType',
+                            panelHeight:'auto',
+                            label: '类型2(查询得到）:',
+                            labelPosition: 'left'
+                        "/>
+                    </td>
+                    <label>内容：</label><input class="easyui-textbox" id="itemContent" data-options="prompt:'支持模糊搜索'">
+                    </tr>
+                </form>
+            </div>
+
+            <table id="query_list_qcItem" class="easyui-datagrid datagrid_table_1" style="width: 100%;height: 100%" data-options="rownumbers:true,singleSelect:true,pagination:true,
+			            url:getHost(HostAddress.robot)+'/qcItem/getQcItemPageByBean',method:'post'">
+                <thead>
+                <tr>
+                    <th data-options="field:'ck',checkbox:true"></th>
+                    <th data-options="field:'itemType',width:120">类型</th>
+                    <th data-options="field:'itemContent',width:400">内容</th>
+                    <th data-options="field:'maxScore',width:80">最高分</th>
+                    <th data-options="field:'passScore',width:80">合格分</th>
+                    <th data-options="field:'minScore',width:80">最低分</th>
+                    <th data-options="field:'status',width:80">状态</th>
+                    <th data-options="field:'createDate',width:200">创建时间</th>
+                    <th data-options="field:'creatorName',width:200">创建人</th>
+                    <th data-options="field:'remark',width:150">备注</th>
+                </tr>
+                </thead>
+            </table>
+            </div>
+
+            <div title="专有词汇管理" style="padding:10px;">
+                <table id="query_list_CustomDictionary" class="easyui-datagrid datagrid_table_1" style="width: 100%;height: 100%" data-options="rownumbers:true,singleSelect:true,pagination:true,
+			            url:getHost(HostAddress.robot)+'/customDictionary/getCustomDictionarys',method:'get',toolbar:'#tb2'">
+                    <thead>
+                        <tr>
+                            <th data-options="field:'name',width:300">词汇</th>
+                            <th data-options="field:'patternconf',width:400">所属语料库</th>
+                            <th data-options="field:'status',width:100">状态</th>
+                            <th data-options="field:'oldname',width:200,formatter:formatteroldname">操作</th>
+                            <th data-options="field:'createAccountCode',width:200,formatter:formatterCreate">创建者</th>
+                            <th data-options="field:'test',width:100,formatter:formatterTest">a标签</th>
+                            <th data-options="field:'test2',width:100,formatter:formatterTest2">转义符</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div id="tb2">
+                    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="saveOrUpdateCustomDictionary(0);">新增</a>
+                    <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="saveOrUpdateCustomDictionary(1);">修改</a>
+                    <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteCustomDictionary();">删除</a>
+                </div>
+            </div>
+
+
+            <div title="案例库" style="padding: 10px">
+                <div id="tb-trans_qcCase" class="toolbar_div_2">
+                    <form id="query_form_qcCase">
+                        <td>
+                            <!--通过URL加载远程列表数据。-->
+                            <input class="easyui-combobox" id="caseType" name="caseType" style="width:30%;" data-options="
+                            url:getHost(HostAddress.robot)+'/QcCase/getQcCaseByBean',
+                            method:'get',
+                            valueField:'caseType',
+                            textField:'caseType',
+                            panelHeight:'auto',
+                            label: '案例类型:',
+                            labelPosition: 'left'
+                        "/>
+                        </td>
+
+                        <label>案例内容：</label><input class="easyui-textbox" id="reason" data-options="prompt:'支持模糊搜索'">
+                    </form>
+                </div>
+
+                    <table id="query_list_QcCase" class="easyui-datagrid datagrid_table_1" style="width: 100%;height: 100%" data-options="rownumbers:true,singleSelect:true,pagination:true,
+			            url:getHost(HostAddress.robot)+'/QcCase/getQcCaseByBean',method:'get',toolbar:'#tbQc'">
+                    <thead>
+                        <tr>
+                            <th data-options="field:'uniqueSerialNo',width:250">呼叫流水</th>
+                            <th data-options="field:'caseType',width:100">案例类型</th>
+                            <th data-options="field:'custName',width:100">客户姓名</th>
+                            <th data-options="field:'custPhone',width:100">客户电话</th>
+                            <th data-options="field:'empName',width:100">坐席姓名</th>
+                            <th data-options="field:'recorderName',width:100">创建人</th>
+                            <th data-options="field:'reason',width:300">案例描述</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div id="tbQc">
+                    <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="deleteQaCase()">删除</a>
+                    <a href="#" class="easyui-linkbutton" iconCls="icon-edit" onclick="saveOrUpdateQaCase(0)">新增</a>
+                    <a href="#" class="easyui-linkbutton" iconCls="icon-add" onclick="saveOrUpdateQaCase(1)">修改</a>
+                    <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="queryQaCase()">查询</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- itemType  编辑查看dialog -->
+<div id="openWin" class="easyui-dialog div_container" title="编辑栏" style="width: 500px; height: 600px;padding:10px;top: 100px;"
+     data-options="
+				closed:true,
+				buttons: [{
+					text:'提交',
+					iconCls:'icon-ok',
+					handler:function(){
+						saveQcItem()
+					}
+				},{
+					text:'取消',
+					handler:function(){
+						$('#openWin').dialog('close');
+					}
+				}]
+			">
+
+    <form id="editForm" method="post">
+        <table width="99%">
+            <tr>
+                <input class="easyui-textbox" id="code" name="code" type="hidden" />
+                <th style="width: 100px;">类型:</th>
+                <td colspan="3"><select name="itemType" class="easyui-combobox" style="width: 140px" id="itemType2"
+                        data-options="required:true,panelHeight:230" >
+                        <option value="1Greeting">开场白</option>
+                        <option value="ClientInfo">获取客户个人信息</option>
+                        <option value="ServiceAtti">服务态度</option>
+                        <option value="CommSkill">理解能力</option>
+                        <option value="Ending">结束语</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>状态:</th>
+                <td>
+                    <select class="easyui-combobox"  id="status_edit" name="status" style="width: 80px">
+                        <option value="0">无效</option>
+                        <option value="1">有效</option>
+                    </select>
+                </td>
+                <th>最高分:</th>
+                <td><input id="maxScore" name="maxScore"
+                           class="easyui-numberspinner" style="width: 80px" value="5"
+                           data-options="required:true,min:-100,increment:1" /></td>
+            </tr>
+            <tr>
+                <th>合格分:</th>
+                <td><input id="passScore" name="passScore"
+                           class="easyui-numberspinner"
+                           validType="less['maxScore','numberbox']" style="width: 80px"
+                           value="5" data-options="required:true,min:-100,max:100,increment:1" />
+                </td>
+                <th>最低分:</th>
+                <td><input name="minScore" class="easyui-numberspinner" id="minScore"
+                           validType="less['passScore','numberbox']" style="width: 80px"
+                           value="0" data-options="required:true,min:-100,max:100,decrease:-1" />
+                </td>
+            </tr>
+            <tr>
+                <th>标准分值1:</th>
+                <td><input name="scoreLevela" class="easyui-numberspinner" id="scoreLevela"
+                           validType="less['maxScore','numberbox']"
+                           data-options="min:-100,increment:1" style="width: 80px" /></td>
+                <th>标准描述1:</th>
+                <td><input name="descLevela" class="easyui-textbox" id="descLevela"
+                           data-options="multiline:true,validType:'maxLength[30]',prompt:'最多30个字，不要太贪心'"
+                           style="height: 44px" /></td>
+            </tr>
+            <tr>
+                <th>标准分值2:</th>
+                <td><input name="scoreLevelb" class="easyui-numberspinner" id="scoreLevelb"
+                           validType="less['maxScore','numberbox']"
+                           data-options="min:-100,increment:1" style="width: 80px" /></td>
+                <th>标准描述2:</th>
+                <td><input name="descLevelb" class="easyui-textbox" id="descLevelb"
+                           data-options="multiline:true,validType:'maxLength[30]',prompt:'最多30个字，不要太贪心'"
+                           style="height: 44px" /></td>
+            </tr>
+            <tr>
+                <th>标准分值3:</th>
+                <td><input name="scoreLevelc" class="easyui-numberspinner" id="scoreLevelc"
+                           validType="less['maxScore','numberbox']"
+                           data-options="min:-100,increment:1" style="width: 80px" /></td>
+                <th>标准描述3:</th>
+                <td><input name="descLevelc" class="easyui-textbox" id="descLevelc"
+                           data-options="multiline:true,validType:'maxLength[30]',prompt:'最多30个字，不要太贪心'"
+                           style="height: 44px" /></td>
+            </tr>
+            <tr>
+                <th>标准分值4:</th>
+                <td><input name="scoreLeveld" class="easyui-numberspinner" id="scoreLeveld"
+                           validType="less['maxScore','numberbox']"
+                           data-options="min:-100,increment:1" style="width: 80px" /></td>
+                <th>标准描述4:</th>
+                <td><input name="descLeveld" class="easyui-textbox" id="descLeveld"
+                           data-options="multiline:true,validType:'maxLength[30]',prompt:'最多30个字，不要太贪心'"
+                           style="height: 44px" /></td>
+            </tr>
+            <tr>
+                <th>内容:</th>
+                <td colspan="3"><input name="itemContent" class="easyui-textbox" id="itemContent_edit"
+                                       data-options="required:true,multiline:true" style="width: 300px; height: 100px" /></td>
+            </tr>
+            <tr>
+                <th>备注:</th>
+                <td colspan="3"><input name="remark" class="easyui-textbox" id="remark"
+                                       data-options="multiline:true,validType:'maxLength[200]',prompt:'最多200个字，不要太贪心'"
+                                       style="width: 300px; height: 100px" /></td>
+            </tr>
+        </table>
+        <!--自己写的div按钮，很丑-->
+        <!--<div id="winTools">
+            <a href="#" id="itemSubmit" class="easyui-linkbutton" iconCls="icon-accept" onclick="saveQcItem()">提交</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-decline" onclick="$('#openWin').dialog('close');">取消</a>
+        </div>-->
+    </form>
+</div>
+
+
+<!--专有词汇新增/修改dialog-->
+<div id="configdlg" class="easyui-dialog" title="新增词汇" style="width:400px;height:400px;padding:10px;top: 100px;"
+     data-options="
+				closed:true,
+				buttons: [{
+					text:'提交',
+					iconCls:'icon-ok',
+					handler:function(){
+						addConfig()
+					}
+				},{
+					text:'取消',
+					handler:function(){
+						$('#configdlg').dialog('close');
+					}
+				}]
+			">
+    <form id="configff" method="post">
+        <table style="width:100%;" >
+            <tr>
+                <td>词汇:</td>
+                <td><input class="easyui-textbox" type="hidden" id="code_CustomDictionary" name="code" >
+                    <input class="easyui-textbox" type="text" name="name" id="name"  data-options="required:true"/></td>
+            </tr>
+            <tr>
+                <td>词性:</td>
+                <td>
+                    <select class="easyui-combogrid"  id="nature"  name="nature" style="width:250px" data-options="
+							panelWidth: 500,
+							panelHeight: 400,
+							multiple: false,
+							pagination:true,
+							pageSize:50,
+							idField: 'code',
+							textField: 'name',
+							url:getHost(HostAddress.robot)+'/nature/getNatures',
+							method: 'post',
+							columns: [[
+								{field:'ck',checkbox:true},
+								{field:'code',title:'编码',width:80},
+								{field:'name',title:'名称',width:120},
+								{field:'remark',title:'备注',width:60}
+							]],
+							fitColumns: true
+						">
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>所属语料库:</td>
+                <td>
+                    <select class="easyui-combogrid"  id="patternconf"  style="width:250px" data-options="
+							panelWidth: 500,
+							panelHeight:'auto',
+							multiple: true,
+							pagination:true,
+							pageSize:50,
+							idField: 'code',
+							textField: 'name',
+							required:true,
+							url:getHost(HostAddress.robot)+'/patternConfig/getPatternConfigs',
+							method: 'post',
+							columns: [[
+								{field:'ck',checkbox:true},
+								{field:'name',title:'名称',width:120}
+							]],
+							fitColumns: true
+						">
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+
+<!--案例库dialog-->
+<div id="openWinQcCase" class="easyui-dialog div_container" title="编辑栏" style="width: 500px;height: 600px;padding: 10px;top: 100px;"
+     data-options="buttons:[{text:'提交',
+                            iconCls:'icon-ok',
+                            handler:function(){
+                                saveQcCase()
+                            }},{text:'取消',
+                            iconCls:'icon-cancel',
+                            handler:function(){
+                                $('#openWinQcCase').dialog('close');
+                            }}
+
+     ]">
+    <form id="editFormQcCase" method="post">
+        <table width="99%">
+            <tr>
+                <input class="easyui-textbox" id="codeQcCase" name="uniqueSerialNo" type="hidden" />
+                <td colspan="3"><input class="easyui-combobox" id="caseType2" name="caseType" style="width:250px;" data-options="
+                            url:getHost(HostAddress.robot)+'/QcCase/getQcCaseByBean',
+                            method:'get',
+                            valueField:'caseType',
+                            textField:'caseType',
+                            panelHeight:'auto',
+                            label: '案例类型:',
+                            labelPosition: 'left'
+                        "/>
+                </td>
+            </tr>
+            <tr>
+                <th style="width: 100px">客户姓名：</th>
+                <td colspan="6"><input class="easyui-textbox" id="custName" name="custName"></td>
+            </tr>
+            <tr>
+                <th style="width: 100px">创建人：</th>
+                <td colspan="3"><input class="easyui-textbox" id="createName" name="recorderName"></td>
+            </tr>
+        </table>
+    </form>
+
+
+</div>
+
+</body>
+</html>

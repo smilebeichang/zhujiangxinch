@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>五个div面板</title>
+    <script type="text/javascript" src="../js/sunriseui.js"></script>
+    <script type="text/javascript" src="../js/sunriseui.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../js/sessionLog.js"></script>
+    <script type="text/javascript" src="../js/BatchTestDemo.js"></script>
+    <script type="text/javascript" src="robotFileManage.js"></script>
+    <script type="text/javascript" src="../js/jqPaginator.js"></script>
+    <script type="text/javascript" src="synony.js"></script>
+    <script type="text/javascript" src="../js/ajaxfileupload.js"></script>
+
+
+    <link rel="stylesheet" type="text/css" href="onlinephone.css"  />
+    <link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../themes/icon.css">
+    <!--字体大小颜色样式-->
+    <link rel="stylesheet" type="text/css" href="../css/tradeCss.css" />
+    <style type="text/css">
+        .button-green span {
+            color: green;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="easyui-layout" style="width:100%;height:650px;">
+    <!--在线软电话区开始（北）  -->
+    <div data-options="region:'north',split:true" title="在线软电话区" style="height:100px">
+       <a class="easyui-layout" style="width: 100%; height: 50px;" data-options="border:false">
+
+            <a id="login" href="#" plain="true" class="easyui-linkbutton"
+               data-options="iconCls:'weixin',size:'large',group:'g1',disabled:true">签入</a>
+            <a id="ready" href="#" plain="true" class="easyui-linkbutton" onclick="ready()"
+               data-options="iconCls:'ready', size:'large',group:'g1',disabled:true">就绪</a>
+            <a id="aux" href="#" plain="true" class="easyui-linkbutton" onclick="aux()"
+               data-options="iconCls:'hold',size:'large',group:'g1',disabled:true">小休</a>
+            <a id="syn" href="#" plain="true" class="easyui-linkbutton" onclick="syn()"
+               data-options="iconCls:'dtmf',size:'large',group:'g1',disabled:true">协同码生成</a>
+            <a id="monitor" href="#" plain="true"  class="easyui-linkbutton" onclick="forceWin()"
+               data-options="iconCls:'conference',size:'large',group:'g1',disabled:true">监听</a>
+            <a style="vertical-align: middle;"><span id="agentState" style="font-weight:bold; color: #ea0b0b;font-size:18px">未登录</span></a>
+
+        </a>
+    </div>
+    <!-- 在线软电话区结束  -->
+    <!--左侧ztree开始（东）-->
+    <div data-options="region:'west',split:true" title="菜单信息" style="width:200px;">
+        <ul class="easyui-tree" data-options="url:'tree_data2.json',method:'get',animate:true"></ul>
+    </div>
+    <!--左侧ztree结束-->
+    <!--tabs下有五个div面板-->
+    <div data-options="region:'center'">
+        <!--<div class="easyui-tabs" style="width:100%;height:100%">-->    <!--easyui-tabs很牛逼-->
+            <div title="批量测试" style="padding:10px">
+                <div id="tb-trans" class="toolbar_div_2">
+                    <form id="query_form">
+                        <table>
+                            <tr>
+                                <th>渠道：</th>
+                                <td>
+                                    <!--还没实现，只是写死，可以查询后，然后EL表达式-->
+                                    <!--checkbox 赋值LoadDate-->
+                                    <select class="easyui-combobox"  id="channelQuery" name="channelNo" style="width:150px">
+                                        <option value="">请选择</option>
+                                        <option value="ZHIFUBAO">支付宝</option>
+                                        <option value="PSP">微信</option>
+                                    </select>
+                                </td>
+                                <th>批次名称：</th>
+                                <td>
+                                    <input name="name" id="queryName" class="easyui-textbox"  data-options="prompt:'支持模糊搜索'" />
+                                </td>
+                                <!--新增创建时间-->
+                                <th>创建时间：</th>
+                                <td colspan="3">
+                                    <input class="easyui-datebox" id="beginTime" data-options="formatter:myformatter,parser:myparser"  name="beginTime"  style="width: 200px;" editable="false"/>-至-<input class="easyui-datebox" id="endTime" data-options="formatter:myformatter,parser:myparser" name="endTime"  editable="false" style="width: 200px;" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="6">
+                                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit'"
+                                       onclick="exportQcTask()">导出明细</a>
+                                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit'"
+                                       onclick="openDetail()">查看明细</a>
+                                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'"
+                                       onclick="openImportWin()">导入</a>
+                                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'"
+                                       onclick="query()">查询</a>
+                                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'"
+                                       onclick="toInsert()">新增</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+
+                <table id="query_list" class="easyui-datagrid datagrid_table_1"  style="width:100%;height:100%"
+                       data-options="singleSelect:true,collapsible:true">
+                    <thead>
+                    <tr>
+                        <th data-options="field:'code',width:140,hidden:true">ID</th>
+                       <!-- <th data-options="field:'channelNo',width:60,formatter:formatChannel">渠道名称</th>-->
+                        <th data-options="field:'channelNo',width:140">渠道名称</th>
+                        <th data-options="field:'name',width:140">批次名称</th>
+                        <th data-options="field:'createDate',width:300">创建日期</th>
+                        <th data-options="field:'createAccountCode',width:140">创建人</th>
+                        <th data-options="field:'status',width:140">状态</th>
+                        <th data-options="field:'questionNum',width:140">问题数量</th>
+                        <th data-options="field:'hitNum',width:140">命中数量</th>
+                        <th data-options="field:'hitRate',width:140,formatter:formatHitRate">命中率</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <!--
+            <div title="质检员维护" style="padding:10px">
+
+                <div id="tb-trans2" class="toolbar_div_2">
+                    <form id="query_form2">
+                        <table>
+                            <tr>
+                                <th>用户名：</th>
+                                <td>
+                                    <input name="officerCode" id="officerCode" class="easyui-textbox"  />
+                                </td>
+                                <th>用户名称：</th>
+                                <td>
+                                    <input name="officerName" id="officerName" class="easyui-textbox"  data-options="prompt:'支持模糊搜索'" />
+                                </td>
+
+                                <td colspan="6">
+                                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'"
+                                       onclick="delete2()">删除</a>
+                                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit'"
+                                       onclick="openInsertQc(true)">修改</a>
+                                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'"
+                                       onclick="query2()">查询</a>
+                                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'"
+                                       onclick="openInsertQc(false)">新增</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+
+                <table id="query_list2" class="easyui-datagrid"  style="width:1300px;height:800px"
+                       data-options="singleSelect:true,collapsible:true,method:'get'">
+                    <thead>
+                    <tr>
+                        <th data-options="field:'officerCode',width:140">用户名</th>
+                        <th data-options="field:'officerName',width:140">用户名称</th>
+                        <th data-options="field:'businessGroupCode',width:300">业务组</th>
+                        <th data-options="field:'officerType',width:140">质检员类型</th>
+                        <th data-options="field:'remark',width:140">备注</th>
+                    </tr>
+                    </thead>
+                </table>
+
+            </div>
+
+            <div title="机器人聊天记录"  style="padding:10px">
+                <div id="tb_trans_sessionLog" class="toolbar_div_2">
+                    <form id="query_form_sessionLOg">
+                        <table>
+                            <tr>
+                                <th>客户姓名：</th>
+                                <td>
+                                    <input name="name" id="custName" class="easyui-textbox" />
+                                </td>
+                                <th>微信昵称：</th>
+                                <td>
+                                    <input name="name" id="nickName" class="easyui-textbox" />
+                                </td>
+                                <th>渠道：</th>
+                                <td>
+                                    <select class="easyui-combobox"  id="channelQuerySessionLog" name="channelNo" style="width:150px">
+                                        <option value="">请选择</option>
+                                        <option value="ZHIFUBAO">支付宝</option>
+                                        <option value="PSP">微信</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>访问时间：</th>
+                                <td colspan="3">
+                                    <input class="easyui-datebox" id="beginTimeSessionLog"   name="beginTimeSessionLog" data-options="formatter:myformatter,parser:myparser" style="width: 200px;" editable="false"/>-至-<input class="easyui-datebox" id="endTimeSessionLog"  name="endTimeSessionLog" data-options="formatter:myformatter,parser:myparser" editable="false" style="width: 200px;" />
+                                </td>
+                                <th>微信ID：</th>
+                                <td>
+                                    <input name="openId" id="openId" class="easyui-textbox" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="white-space: nowrap;">
+                                    <div style="float: left">
+                                        <input class="easyui-checkbox" name="noAnswerNum" value="1" label="未命中" id="noAnswerNum">&nbsp;
+                                    </div>
+                                    <div style="float: left;padding-left: 20px;">
+                                        <input class="easyui-checkbox" name="likeNum" value="1" label="点赞" id="likeNum">
+                                    </div>
+                                    <div style="float: left;padding-left: 20px;">
+                                        <input class="easyui-checkbox" name="treadNum" value="1" label="点踩" id="treadNum">
+                                    </div>
+                                </td>
+                                <td colspan="4">
+                                <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'"
+                                   onclick="querySessionLog()">查询</a>
+                                </td>
+                                <td colspan="4">
+                                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'"
+                                       onclick="chatwin()">查看聊天记录</a>
+                                </td>
+
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+
+                <table id="query_list_sessionLog"  class="easyui-datagrid"  style="width:1300px;height:800px"
+                       data-options="singleSelect:true,collapsible:true,method:'post'">
+                    <thead>
+                    <tr>
+                        <th data-options="field:'channelNo',width:120">渠道</th>
+                        <th data-options="field:'openId',width:120">微信ID</th>
+                        <th data-options="field:'nickName',width:120">微信昵称</th>
+                        <th data-options="field:'custName',width:120">客户姓名</th>
+                        <th data-options="field:'gender',width:60">性别</th>
+                        <th data-options="field:'beginTime',width:100">开始时间</th>
+                        <th data-options="field:'endTime',width:100">结束时间</th>
+                        <th data-options="field:'msgNum',width:100">消息数</th>
+                        <th data-options="field:'likeNum',width:100">点赞数</th>
+                        <th data-options="field:'treadNum',width:100">点踩数</th>
+                        <th data-options="field:'noAnswerNum',width:100">未命中数</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>-->
+<!--
+            <div title="素材库" style="padding:10px" >
+                <div id="tb-trans_file" class="toolbar_div_2">
+                    <form id="query_form_file">
+                        <table>
+                            <tr>
+                                <th>文件名：</th>
+                                <td><input name="fileName" class="easyui-textbox"  data-options="prompt:'支持模糊搜索'" />
+                                </td>
+                                <th>开始时间：</th>
+                                <td><input class="easyui-datebox"
+                                           name="startDate">
+                                <th>结束时间：</th>
+                                <td><input class="easyui-datebox"
+                                           name="endDate">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="6">
+                                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-delete'"
+                                       onclick="deleteFile()">删除</a>
+                                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit'"
+                                       onclick="openDetail_file('edit')">修改</a>
+                                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'"
+                                       onclick="openDetail_file('add')">新增</a>
+                                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'"
+                                       onclick="query_file()">查询</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+
+                <table id="query_list_file" class="easyui-datagrid datagrid_table_1" data-options="checkOnSelect:false">
+                    <thead>
+                    <tr>
+                        <th data-options="field:'id',width:140,hidden:true">ID</th>
+                        <th data-options="field:'fileName',width:300">文件名</th>
+                        <th data-options="field:'fileType',width:120">文件类型</th>
+                        <th data-options="field:'fileSize',width:120">文件大小</th>
+                        <th data-options="field:'updateDate',width:300">更新日期</th>
+                        <th data-options="field:'updateAccountName',width:120">更新人</th>
+                        <th data-options="field:'operator',width:200,formatter:addButton">操作</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+
+            <div title="近义词" style="padding:10px" >
+                <div id="tb-trans_synonym" class="toolbar_div_2">
+                    <form id="query_form_synonym">
+                        <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="saveOrupdateSynonym(1);">新增近义词</a>
+                        <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="saveOrupdateSynonym(0);">修改近义词</a>
+                        <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteSynonym();">删除近义词</a>
+                        <input class="easyui-textbox" id="searchworks"/>
+                        <a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="querySynonym();">搜索</a>
+                    </form>
+                </div>
+
+                <table id="query_list_synonym" class="easyui-datagrid datagrid_table_1" title="近义词管理" data-options="rownumbers:true,singleSelect:true,pagination:true,
+			            url:getHost(HostAddress.robot)+'/synonym/getRbSynonymConfigs',method:'post'">
+                    <thead>
+                    <tr>
+                        <th data-options="field:'words',width:300">近义词词组</th>
+                        <th data-options="field:'status',width:200">状态</th>
+                        <th data-options="field:'method',width:200">回调方法</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+
+        </div>
+-->
+    <!--</div>-->
+    </div>
+</div>
+<!--
+<!--批量删除新增--
+<div id="insertBt" class="easyui-dialog" style="width: 60%;height: 300px">
+    <form id="insertForm" method="post">
+        code:<input class="easyui-textbox" id="code2">
+        channelNo:<input class="easyui-textbox" id="channelNo">
+        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'"
+           onclick="Insert()">保存</a>&nbsp;&nbsp;
+        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'"
+           onclick="$('#insertBt').dialog('close')">关闭</a>
+    </form>
+</div>
+
+<!--质检员新增--
+<div id="insertQc" class="easyui-dialog" style="width: 60%;height: 300px">
+    <form id="insertFormQc" method="post">
+        code:<input class="easyui-textbox" id="code" name="code">
+        用户:<input class="easyui-textbox" id="officerName2" name="officerName">
+        类型:
+        <select class="easyui-combobox"  id="officerType2" name="officerType" style="width:150px">
+            <option value="null">请选择</option>
+            <option value="officer">普通质检员</option>
+            <option value="manager">质检管理员</option>
+        </select>
+        备注:<input class="easyui-textbox" id="remark" name="remark">
+        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'"
+           onclick="InsertQc()">保存</a>&nbsp;&nbsp;
+        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'"
+           onclick="$('#insertQc').dialog('close')">关闭</a>
+    </form>
+</div>
+
+<!--细节栏开始easyui-dialog--
+<div id="detail" class="easyui-dialog"  style="width:60%; height:400px;" >
+    <form id="ff" method="post">
+        <div style="height: 30px;width: 900px">
+            问题：<input class="easyui-textbox" name="name" data-options="prompt:'支持模糊查询'" >
+            是否命中：<select class="easyui-combobox"  labelPosition="top" style="width:200px;">
+                        <option value="AL">请选择</option>
+                        <option value="AK">命中</option>
+                        <option value="AZ">未命中</option>
+                    </select>
+        </div>
+        <div>
+            <a href="void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'"   style="height: 30px;float: right">查询</a>
+        </div>
+    </form>
+    <div   style="width: 100%; height:100%" >
+        <table id="detail_question_List" class="easyui-datagrid"
+               style="width: 100%; height:100%" data-options="nowrap:false">
+            <thead>
+            <tr>
+                <th data-options="field:'question',width:200,align:'center'">问题</th>
+                <th data-options="field:'answer',width:800,align:'center'">答案</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<!--导入栏easyui-dialog--
+<div id="openWinBT" class="easyui-dialog" style="width:60%; height:400px;">
+    <form id="editFormBT">
+        <div class="div_container">
+        <table style="word-wrap: break-word; word-break: break-all;">
+            <tr>
+                <td width="20%">渠道：</td>
+                <td width="80%">
+                    <select class="easyui-combox" id="channelNo2" data-options="required:true" style="width:150px">
+                        <option>请选择</option>
+                        <option>支付宝</option>
+                        <option>微信</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td width="20%">名称：</td>
+                <td width="80%">
+                    <input class="easyui-textbox" id="files" data-options="required:true" style="width:150px">
+                </td>
+            </tr>
+            <tr>
+                <td width="20%" style="width:150px"><spen style="color:red">*</spen>选择文件：</td>
+                <td width="80%" id="fileInputBT">
+                    <input type="file" data-options="required:true" style="width:150px"><span>(大小不超过20M)</span>
+                </td>
+            </tr>
+            <tr>   <!--提交按钮未连接function-->
+                <a href="void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-ok'"   style="height: 30px;" onclick="upLoadFile()">提交</a>
+            </tr>
+        </table>
+        </div>
+    </form>
+</div>
+
+
+<!--聊天记录--
+<div id="win" class="easyui-window" title="聊天记录" style="width:600px;height:692px"
+     data-options="iconCls:'icon-save',modal:true,closed:true">
+    <div class="easyui-layout" data-options="fit:true">
+        <div data-options="region:'center'" style="padding:10px;" class ='div_content'>
+            <div class="content" id="content"></div>
+        </div>
+        <div data-options="region:'south',border:false" style="text-align:right;padding:5px 0 0;">
+            <div id="pp" class="easyui-pagination" data-options="total:200,pageSize:5,showPageList:false,onRefresh:onRefresh,showRefresh:false,onSelectPage:onRefresh" style="background:#efefef;border:1px solid #ccc;"></div>
+        </div>
+    </div>
+</div>
+
+<!--编辑窗口--
+<div id="openWin" class="easyui-dialog" style="width:500px;height:430px;">
+    <form id="editForm">
+        <div class="div_container">
+            <table style="word-wrap: break-word; word-break: break-all;">
+                <tr>
+                    <td width="20%" align="right">文件名：</td>
+                    <td width="80%">
+                        <input  id="fileName" name="fileName" class="easyui-textbox"  data-options="required:true,width:'300px'" />
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" width="20%"><span style="color: Red">*</span>选择文件：</td>
+                    <td id="fileInput" width="80%"><input type="file" id="files" name="files"
+                                                          onchange="fileChange(this)"><span style='color: Red'>(文件大小不超过200M)</span></td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</div>
+
+<!--窗口的确认取消框--
+<div id="winTools">
+    <a id="handle" href="void(0)" class="easyui-linkbutton btn_save" iconCls="icon-save" onclick="saveRobotFile()">保存</a>
+    <a href="void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="$('#openWin').dialog('close')">取消</a>
+</div>
+
+<!--查看细节的url窗口--
+<div id="openUrlWin" class="easyui-dialog" style="width:700px;height:230px;">
+    <div class="div_container">
+        <table style="word-wrap: break-word; word-break: break-all;">
+            <tr>
+                <td width="20%" align="right">公网地址：</td>
+                <td width="80%">
+                    <input  id="publicNetworkUrl" class="easyui-textbox"  data-options="width:'600px',readonly:true" />
+                </td>
+            </tr>
+            <tr>
+                <td width="20%" align="right">局域网地址：</td>
+                <td width="80%">
+                    <input  id="lanUrl" class="easyui-textbox"  data-options="width:'600px',readonly:true" />
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<!--近义词新增修改--
+<div title="近义词" style="padding: 10px">
+    <div id="Synonymdlg" class="easyui-dialog" title="新增近义词" style="width:700px;height:230px;padding:10px;top: 100px;"
+         data-options="
+                        closed:true,
+                        buttons: [{
+                            text:'提交',
+                            iconCls:'icon-ok',
+                            handler:function(){
+                                addSynonym();
+                            }
+                        },{
+                            text:'取消',
+                            handler:function(){
+                                $('#Synonymdlg').dialog('close');
+                            }
+                        }]
+                    ">
+        <form id="Synonymff" method="post" style="width:100%;">
+            <table style="width:100%;" >
+                <tr>
+                    <td style="width: 30%;" align="right">近义词组:</td>
+                    <td>
+                        <input class="easyui-textbox" type="hidden" name="code" id="codeSy"/>
+                        <input type="hidden" name="status" id="status"/>
+                        <input class="easyui-textbox" name="words" id="words"
+                               data-options="multiline:true" style="height:60px;width: 100%;"></input></td>
+                </tr>
+                <tr>
+                    <td align="right" >回调方法:</td>
+                    <td><input class="easyui-textbox" name="method" id="method" style="width: 100%;"></input></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+-->
+</body>
+</html>

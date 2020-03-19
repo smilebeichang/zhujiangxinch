@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>三级联动</title>
+    <!--五个js,四个css-->
+    <script type="text/javascript" src="../js/sunriseui.js"></script>
+    <script type="text/javascript" src="../js/sunrise.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="js/threeLinkMove.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="onlinephone.css"  />
+    <link rel="stylesheet" type="text/css" href="../css/tradeCss.css" />
+    <link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../themes/icon.css">
+</head>
+<body>
+    <div class="easyui-layout" style="height: 800px;width: 100%">
+    <div data-options="region:'north',split:true" style="height: 100px">
+        <a style="width: 100%; height: 50px;">
+            <a id="login" href="#" plain="true" class="easyui-linkbutton"
+               data-options="iconCls:'phone',size:'large',group:'g1',disabled:true">签入</a>
+            <a href="#" plain="true" class="easyui-linkbutton"
+               data-options="iconCls:'ready',size:'large',group:'g1'">签出</a>
+            <a href="#" plain="true" class="easyui-linkbutton"
+               data-options="iconCls:'conference',size:'large',group:'g1'">就绪</a>
+            <a href="#" plain="true" class="easyui-linkbutton" onclick="foreachArr()"
+               data-options="iconCls:'icon-add',size:'large',group:'g1'">js遍历数组</a>
+            <a href="#" plain="true" class="easyui-linkbutton" onclick="foreachObj()"
+               data-options="iconCls:'icon-ok',size:'large',group:'g1'">js遍历对象</a>
+        </a>
+    </div>
+    <div data-options="region:'west',split:true" style="width: 200px">
+        <ul class="easyui-tree" data-options="url:'tree_data2.json'"></ul>
+    </div>
+    <div data-options="region:'center'" class="easyui-layout" style="height: 100%;width: 100%">
+        <div data-options="region:'north',split:true" style="height: 100%">
+            <div class="toolbar_div_2">
+                <form id="tb_tran_form">
+                    <table class="datagrid_table_1">
+                        <tr>
+                            <td>
+                                <label>问题分类：</label>
+                                <input class="easyui-combobox" id="bigTypeQuery" name="bigType" data-options="panelHeight:'auto',editable:false,valueField:'code',textField:'value'"/>
+                                <input class="easyui-combobox" id="middleTypeQuery" name="middleType" data-options="panelHeight:'auto',editable:false,valueField:'code',textField:'value',data:getDefaultObj()"/>
+                                <input class="easyui-combobox" id="smallTypeQuery" name="smallType" data-options="panelHeight:'auto',editable:false,valueField:'code',textField:'value',data:getDefaultObj()"/>
+                            </td>
+                            <td>
+                                <a href="#" class="easyui-linkbutton" onclick="searchPattern()"
+                                   data-options="iconCls:'icon-search'">查询</a>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <table id="list" class="easyui-datagrid datagrid_table_1">
+                <thead>
+                <tr>
+                    <th data-options="field:'bigType',width:100,formatter:formatterBigType">一级分类</th>
+                    <th data-options="field:'middleType',width:100,formatter:formatterMiddleType" >二级分类</th>
+                    <th data-options="field:'smallType',width:100,formatter:formatterSmallType">三级分类</th>
+                    <th data-options="field:'content',width:400">问题</th>
+                    <th data-options="field:'answercontent',width:400">答案</th>
+                    <th data-options="field:'status',width:100">状态</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

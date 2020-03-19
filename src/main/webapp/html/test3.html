@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>词汇_所属语料库</title>
+    <script type="text/javascript" src="../js/sunriseui.js"></script>
+    <script type="text/javascript" src="../js/sunrise.js"></script>
+    <link rel="stylesheet" type="text/css" href="../themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="../themes/icon.css" />
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="onlinephone.css"  />
+    <link rel="stylesheet" type="text/css" href="../css/tradeCss.css" />
+    <script type="text/javascript" src="test03.js"></script>
+</head>
+<body id="layout_body" class="easyui-layout" data-options="fit:true">
+
+    <div id="layout_center_grid" class="div_color_1" data-options="region:'center',split:true,border:false" >
+        <table id="query_list_customDictionary" class="easyui-datagrid datagrid_table_1" style="width: 100%;height: 100%" data-options="rownumbers:true,singleSelect:true,fitColumns:true,nowrap:false,pagination:true">
+            <thead>
+            <tr>
+                <th data-options="field:'name',width:0">词汇</th>
+                <th data-options="field:'patternconf',width:60">所属语料库</th>
+                <th data-options="field:'oldname',width:30">操作</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div id="toolbar_customDictionary" class="toolbar_div_2">
+        <form id="query_form_customDictionary">
+            <table>
+                <tr>
+                    <th colspan="4">
+                        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'"
+                           onclick="javascript:saveOrUpdateCustomDictionary2(0)">新增</a>
+                    </th>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <!--新增/修改-->
+    <div id="openWin" class="easyui-dialog" style="width:700px; height:455px;">
+        <form id="editForm">
+            <div class="div_container">
+                <form id="submitForm">
+                    <input id="code" name="code" class="easyui-textbox" type="hidden">
+                    <table>
+                        <tr>
+                            <th>词汇：</th>
+                            <td>
+                                <input name="name" id="name" class="easyui-textbox" data-options="required:true,width:'240px',validType:'maxLength[10]'"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>所属语料库：</th>
+                            <td>
+                                <input name="patternConfig"  id="patternConfig" class="easyui-combogrid" data-options="
+                                    panelWidth: 500,
+                                    panelHeight: 400,
+                                    multiple: true,
+                                    pagination:true,
+                                    pageSize:50,
+                                    idField: 'code',
+                                    textField: 'name',
+                                    url:getHost(HostAddress.robot)+'/patternConfig2/getPatternConfigs2',
+                                    method: 'post',
+                                    columns: [[
+                                        {field:'ck',checkbox:true},
+                                        {field:'name',title:'名称',width:120}
+                                    ]],
+                                    fitColumns: true
+                                " />
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </form>
+    </div>
+
+    <div id="winTools">
+        <a id="handle" href="javascript:void(0)" class="easyui-linkbutton btn_save" iconCls="icon-save" onclick="javascript:saveCustomDictionary2()">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#openWin').dialog('close')">取消</a>
+    </div>
+</body>
+</html>
