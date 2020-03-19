@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>qcTemplate</title>
+    <script type="text/javascript" src="js/sunrise-framework.js"></script>
+    <script type="text/javascript" src="js/sunriseui.js"></script>
+    <script type="text/javascript" src="js/sunrise-framework.js"></script>
+    <script type="text/javascript" src="js/sunrise.js"></script>
+    <link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="themes/icon.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="onlinephone.css"  />
+    <link rel="stylesheet" type="text/css" href="css/tradeCss.css" />
+    <script type="text/javascript" src="js/qcTemplate.js"></script>
+
+</head>
+<body>
+    <div class="easyui-layout" style="width:100%;height:750px;">
+        <!--在线软电话区开始（北）  -->
+        <div data-options="region:'north',split:true" title="在线软电话区" style="height:100px">
+            <a class="easyui-layout" style="width: 100%; height: 50px;" data-options="border:false">
+
+                 <a id="login" href="#" plain="true" class="easyui-linkbutton"
+                    data-options="iconCls:'weixin',size:'large',group:'g1',disabled:true">签入</a>
+                 <a id="ready" href="#" plain="true" class="easyui-linkbutton" onclick="javascript:ready()"
+                    data-options="iconCls:'ready', size:'large',group:'g1',disabled:true">就绪</a>
+                 <a id="aux" href="#" plain="true" class="easyui-linkbutton" onclick="javascript:aux()"
+                    data-options="iconCls:'hold',size:'large',group:'g1',disabled:true">小休</a>
+                 <a id="syn" href="#" plain="true" class="easyui-linkbutton" onclick="javascript:syn()"
+                    data-options="iconCls:'dtmf',size:'large',group:'g1',disabled:true">协同码生成</a>
+                 <a id="monitor" href="#" plain="true"  class="easyui-linkbutton" onclick="javascript:forceWin()"
+                    data-options="iconCls:'conference',size:'large',group:'g1',disabled:true">监听</a>
+                 <a style="vertical-align: middle;"><span id="agentState" style="font-weight:bold; color: #ea0b0b;font-size:18px">未登录</span></a>
+
+             </a>
+        </div>
+
+        <!--左侧ztree开始（东）-->
+        <div data-options="region:'west',split:true" title="菜单信息" style="width:200px;">
+            <ul class="easyui-tree" data-options="url:'tree_data2.json',method:'get',animate:true"></ul>
+        </div>
+
+        <div data-options="region:'center'" class="easyui-layout" style="width:100%;height:100%;">
+
+            <!--north-->
+            <div data-options="region:'north',split:true,border:false,title:'评分表列表'"
+                 style="height: 50%; width: 100%;"  >
+
+                <div title="评分表维护" style="padding:10px">
+                        <div id="tb_trans_qcTemplate" class="toolbar_div_2">
+                            <form id="query_form_qcTemplate">
+                                <table class="datagrid_table_1">
+                                    <tr>
+                                        <th>类型：</th>
+                                        <td><input class="easyui-combobox" id="TEMPL_TYPE"
+                                                   data-options="
+                                                panelWidth: 100,
+                                                panelHeight: 80,
+                                                multiple: false,
+                                                pagination:true,
+                                                pageSize:50,
+                                                valueField: 'code',
+                                                textField: 'value',
+                                                url:'http://127.0.0.1:8083/qcTemplate/dictionary/getDictionaryValuesMap',
+                                                method: 'post',
+                                                columns: [[
+                                                    {field:'ck',checkbox:true},
+                                                    {field:'code',title:'类型',width:80},
+                                                ]],
+                                                fitColumns: true
+                                            "
+                                        ></td>
+                                        <th>状态：</th>
+                                        <td><input class="easyui-combobox" id="STATUS"></td>
+                                        <th>名称：</th>
+                                        <td><input class="easyui-textbox" id="TEMPL_NAME"></td>
+                                        <td>
+                                            <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-reload'" onclick="javascript:clean()">数据清空</a>
+                                            <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" onclick="javascript:deleteQcTemplate()">删除</a>
+                                            <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="javascript:saveORUpdateQcTemplate(true)">修改</a>
+                                            <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="javascript:saveORUpdateQcTemplate(false)">新增</a>
+                                            <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="javascript:queryQcTemplate()">查询</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+
+                        <table id="query_list_qcTemplate" class="easyui-datagrid datagrid_table_1"
+                               data-options="singleSelect:true,nowrap:false,rownumbers:true,collapsible:true,onSelect:linkQuery">
+                            <thead>
+                            <tr>
+                                <th data-options="field:'templ_TYPE',width:200">评分表类型</th>
+                                <th data-options="field:'templ_NAME',width:200">评分表名称</th>
+                                <th data-options="field:'status',width:200">状态</th>
+                                <th data-options="field:'create_DATE',width:400">创建时间</th>
+                                <th data-options="field:'remark',width:200">备注</th>
+                            </tr>
+                            </thead>
+                        </table>
+                </div>
+
+            </div>
+
+            <!--center-->
+            <div  data-options="region:'center',split:true,border:false,title:'已关联指标'"
+                    class="div_color_1" style="height: 50%; width: 55%;">
+                <div title="已关联指标" style="padding:10px">
+                    <!--查询区域-->
+                    <div id="tb_trans_qcTemplate2" class="toolbar_div_2">
+                        <form id="query_form_qcTemplate2">
+                            <div id="itemtoolbar">
+                                &nbsp;类型：<input class="easyui-combobox" id="itemType" style="width: 180px;"
+                                                data-options="multiple:true,valueField: 'code',textField: 'value',panelHeight:260" />
+                                <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true" onclick="queryQcTemplateItems();">查询</a>
+                                <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',plain:true" onclick="deleteQcTemplateItem();">删除</a>
+                            </div>
+                        </form>
+                    </div>
+                    <!--list区域-->
+                    <table id="itemlist" class="easyui-datagrid datagrid_table_1"
+                           data-options="idField:'code',nowrap:false,rownumbers:true">
+                        <thead>
+                        <tr>
+                            <th data-options="field:'itemType',width:100">指标类型</th>
+                            <th data-options="field:'itemContent',width:250">指标内容</th>
+                            <th data-options="field:'maxScore',width:60">最高分</th>
+                            <th data-options="field:'remark',width:200">备注</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+
+            <!--east-->
+            <div data-options="region:'east',split:true,border:false,title:'未关联指标'"
+                  class="div_color_1" style="width: 45%; height: 50%;">
+                <div title="未关联指标" style="padding:10px">
+                    <div id="tb_trans_qcTemplate3" class="toolbar_div_2">
+                        <form id="query_form_qcTemplate3">
+                            <div id="unchooseitemtoolbar">
+                                <form id="itemSearchForm">
+                                    &nbsp;类型：<input class="easyui-combobox" name="itemType" style="width: 180px;" data-options="valueField: 'code',textField: 'value',panelHeight:260" />
+                                    &nbsp;内容：<input class="easyui-textbox" name="itemContent" data-options="prompt:'支持模糊查询'" />
+                                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true" onclick="queryQcItem();">查询</a>
+                                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true" onclick="javascript:saveQcTemplateItem()">关联</a>
+                                </form>
+                            </div>
+                        </form>
+                    </div>
+
+                    <table id="unchooseitemlist" class="easyui-datagrid datagrid_table_1"
+                           data-options="idField:'code',nowrap:false,rownumbers:true">
+                        <thead>
+                        <tr>
+                            <th data-options="field:'ck',checkbox:true"></th>
+                            <th data-options="field:'itemType',width:100,parameter:'root/BusinessPara/UOMP/qcmg/itemType'">指标类型</th>
+                            <th data-options="field:'itemContent',width:350">指标内容</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <!--
+    <div id="openWin" class="easyui-dialog">
+        <form id="edit_form">
+            <table>
+                <input id="CODE2" name="code" class="easyui-textbox" type="hidden">
+                <tr>
+                    <th>类型：</th>
+                    <td><input id="TEMPL_TYPE2" name="templ_TYPE" class="easyui-textbox" width="40px"></td>
+                </tr>
+                <tr>
+                    <th>状态：</th>
+                    <td><input id="STATUS2" name="status" class="easyui-textbox" width="40px"></td>
+                </tr>
+                <tr>
+                    <th>名称：</th>
+                    <td><input id="TEMPL_NAME2" name="TEMPL_NAME" class="easyui-textbox" width="40px"></td>
+                </tr>
+                <tr>
+                    <a href="#" class="easyui-button" onclick="javascript:addOrUpdate()">确认</a>
+                    <a href="#" class="easyui-button" onclick="javascript:$('#openWin').dialog('close')">取消</a>
+                </tr>
+            </table>
+        </form>
+    </div>
+    -->
+
+
+
+</body>
+</html>
