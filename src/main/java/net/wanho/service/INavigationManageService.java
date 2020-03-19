@@ -9,4 +9,8 @@ import java.util.List;
  */
 public interface INavigationManageService {
     List<NavigationInfoBean> searchNavigationManage(NavigationInfoBean navigationInfoBean);
+    int deleteDemo(NavigationInfoBean navigationInfoBean);
+    int updateDemo(NavigationInfoBean navigationInfoBean);
+    int addDemo(NavigationInfoBean navigationInfoBean);
+
 }

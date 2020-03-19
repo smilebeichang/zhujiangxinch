@@ -2,6 +2,7 @@ package net.wanho.service.impl;
 
 import net.wanho.mapper.UserInfoMapper;
 import net.wanho.pojo.UserInfoBean;
+import net.wanho.pojo.UserInfoBean2;
 import net.wanho.service.IUserInfoService;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +38,12 @@ public class UserInfoServiceImpl implements IUserInfoService {
     public int addUserInfo(UserInfoBean userInfoBean) {
         return userInfoMapper.addUserInfo(userInfoBean);
     }
+
+    @Override
+    public List<UserInfoBean2> searchUserInfo2(UserInfoBean2 userInfoBean2) {
+        return userInfoMapper.searchUserInfo2(userInfoBean2);
+    }
+
 }
 
 

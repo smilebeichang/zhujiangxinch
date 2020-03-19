@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ResultBean<T> {
+public class ResultBean<T> implements Serializable {
 
 	/**
 	 * serialVersionUID
@@ -49,13 +50,53 @@ public class ResultBean<T> {
 	private Long total;
 
 	private Map<String,Object> map;
-	
-
-	
-
-		
 
 
+	public String getReturnCode() {
+		return returnCode;
+	}
 
+	public void setReturnCode(String returnCode) {
+		this.returnCode = returnCode;
+	}
 
+	public String getReturnMessage() {
+		return returnMessage;
+	}
+
+	public void setReturnMessage(String returnMessage) {
+		this.returnMessage = returnMessage;
+	}
+
+	public T getBean() {
+		return bean;
+	}
+
+	public void setBean(T bean) {
+		this.bean = bean;
+	}
+
+	public List<T> getRows() {
+		return rows;
+	}
+
+	public void setRows(List<T> rows) {
+		this.rows = rows;
+	}
+
+	public Long getTotal() {
+		return total;
+	}
+
+	public void setTotal(Long total) {
+		this.total = total;
+	}
+
+	public Map<String, Object> getMap() {
+		return map;
+	}
+
+	public void setMap(Map<String, Object> map) {
+		this.map = map;
+	}
 }

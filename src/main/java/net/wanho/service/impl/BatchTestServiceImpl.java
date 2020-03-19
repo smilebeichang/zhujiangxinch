@@ -34,7 +34,6 @@ public  class  BatchTestServiceImpl  implements IBatchTestService {
 
     @Override
     public int insert(BatchTestBean batchTestBean) {
-        //return batchTestMapper.insert(batchTestBean,channelNo);
         return batchTestMapper.insert(batchTestBean);
     }
 

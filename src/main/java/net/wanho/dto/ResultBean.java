@@ -80,4 +80,12 @@ public class ResultBean<T> {
     public void setMap(Map<String, Object> map) {
         this.map = map;
     }
+
+    /**
+     * javadoc
+     * @param args
+     */
+    public static void main(String[] args) {
+        System.out.println(System.getProperty("user.name"));
+     }
 }

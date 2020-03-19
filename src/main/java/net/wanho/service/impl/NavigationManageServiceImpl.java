@@ -20,4 +20,19 @@ public class NavigationManageServiceImpl implements INavigationManageService {
     public List<NavigationInfoBean> searchNavigationManage(NavigationInfoBean navigationInfoBean) {
         return navigationManageMapper.searchNavigationManage(navigationInfoBean);
     }
+
+    @Override
+    public int deleteDemo(NavigationInfoBean navigationInfoBean) {
+        return navigationManageMapper.deleteDemo(navigationInfoBean);
+    }
+
+    @Override
+    public int updateDemo(NavigationInfoBean navigationInfoBean) {
+        return navigationManageMapper.updateDemo(navigationInfoBean);
+    }
+
+    @Override
+    public int addDemo(NavigationInfoBean navigationInfoBean) {
+        return navigationManageMapper.addDemo(navigationInfoBean);
+    }
 }

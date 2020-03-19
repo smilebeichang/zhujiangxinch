@@ -55,10 +55,10 @@ public class BatchTestBean {
 	 * 状态  1 待处理  2 处理中  3  处理完毕
 	 */
 	private String status;
+
 	/**
 	 * 会话开始时间
 	 */
-
 	@DateTimeFormat(pattern= "yyyy-MM-dd HH:mm:ss")
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
 	private Date beginTime;

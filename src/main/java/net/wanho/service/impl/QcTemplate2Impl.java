@@ -54,7 +54,7 @@ public class QcTemplate2Impl implements IQcTemplate2Service {
             it.setChildren(this.searchChildrenTree(it.getCode()));
         }*/
 
-        //使用lambda表达式写法一
+        //使用lambda表达式
         pageInfo.forEach(str->str.setParentCode("0"));
         pageInfo.forEach(str->str.setChildren(this.searchChildrenTree(str.getCode())));
         return pageInfo;

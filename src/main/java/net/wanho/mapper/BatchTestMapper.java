@@ -6,6 +6,7 @@ import net.wanho.pojo.BatchTestDetailBean;
 import java.util.List;
 
 /**
+ * @author SONGBEICHANG
  * Created by songb on 2019/9/26.
  */
 public interface BatchTestMapper {
@@ -13,7 +14,6 @@ public interface BatchTestMapper {
 
     List<BatchTestBean> findAll();
 
-    //int insert(BatchTestBean batchTestBean,String channelNo);
     int insert(BatchTestBean batchTestBean);
 
     boolean update(BatchTestBean batchTestBean);

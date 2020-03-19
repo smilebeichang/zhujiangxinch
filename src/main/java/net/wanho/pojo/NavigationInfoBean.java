@@ -60,4 +60,76 @@ public class NavigationInfoBean {
      * 状态 0：无效   1：有效
      */
     private String status;
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getIoncLink() {
+        return ioncLink;
+    }
+
+    public String getIoncLinkOnline() {
+        return ioncLinkOnline;
+    }
+
+    public String getSerial() {
+        return serial;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getChanel() {
+        return chanel;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setIoncLink(String ioncLink) {
+        this.ioncLink = ioncLink;
+    }
+
+    public void setIoncLinkOnline(String ioncLinkOnline) {
+        this.ioncLinkOnline = ioncLinkOnline;
+    }
+
+    public void setSerial(String serial) {
+        this.serial = serial;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setChanel(String chanel) {
+        this.chanel = chanel;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

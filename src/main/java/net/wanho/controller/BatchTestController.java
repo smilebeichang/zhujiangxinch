@@ -49,18 +49,14 @@ public class BatchTestController  {
     @Resource
     private IBatchTestService batchTestService;
 
-
-
     /**
      * 批量测试翻页查询
-     * @param batchTestBean
      */
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/getBatchTestPage", method = { RequestMethod.GET })
     @ResponseBody
     public List<BatchTestBean> getBatchTestPage(@ModelAttribute("BatchTestBean") BatchTestBean batchTestBean){
-        List<BatchTestBean> pageinfo =batchTestService.getBatchTestPage(batchTestBean);
-        return pageinfo;
+        return batchTestService.getBatchTestPage(batchTestBean);
     }
 
     @CrossOrigin(origins = "*")
@@ -104,8 +100,10 @@ public class BatchTestController  {
         ResultBean<BatchTestBean> rb = new ResultBean<>();
         InputStream is =null;
         try {
-            MultipartFile mf=files[0];  //导入
-            is = mf.getInputStream();   //导入jar包
+            //导入
+            MultipartFile mf=files[0];
+            //导入jar包
+            is = mf.getInputStream();
             batchTestBean.setCode(UUID.randomUUID().toString().trim().replaceAll("-", ""));
             //此WorkbookFactory在POI-3.10版本中使用需要添加dom4j   POI是用来读写文件
             Workbook wb = WorkbookFactory.create(is);
@@ -135,10 +133,10 @@ public class BatchTestController  {
 
 
 
-    /*
-    执行新增具体步骤
-    getNumberOfSheets（）获得表格数据量   其实表格模板要求不重要，重要的是第一列样式除去第一行即可
-    * */
+    /**
+    *执行新增具体步骤
+    *getNumberOfSheets（）获得表格数据量   其实表格模板要求不重要，重要的是第一列样式除去第一行即可
+    */
     private ResultBean<BatchTestBean> getExcelInfo(BatchTestBean batchTestBean, Workbook wb) {
         ResultBean<BatchTestBean> rb= new ResultBean<>();
         if( wb.getNumberOfSheets() < 1){
@@ -154,25 +152,32 @@ public class BatchTestController  {
         List<BatchTestDetailBean> list = new ArrayList<>();
         BatchTestDetailBean batchTestDetailBean;
         for (int rowNum = sheet.getFirstRowNum()+1; rowNum <= lastRowNum; rowNum++) {
-            row = sheet.getRow(rowNum);                         //依次获得每一行的rowNum
+            //依次获得每一行的rowNum
+            row = sheet.getRow(rowNum);
             //获取第一类单元格的值
             cell = row.getCell(0);
-            String stringValue = this.getCellValue(cell);  //你好
+            //你好
+            String stringValue = this.getCellValue(cell);
             if(stringValue!=null&&""!=stringValue){
                 //不为空
                 batchTestDetailBean = new BatchTestDetailBean();
                 batchTestDetailBean.setCode(UUID.randomUUID().toString().trim().replaceAll("-", ""));
-                batchTestDetailBean.setBatchTestCode(batchTestBean.getCode());  //BatchTestCode和Code
-                batchTestDetailBean.setQuestion(stringValue);   //question
+                //BatchTestCode和Code
+                batchTestDetailBean.setBatchTestCode(batchTestBean.getCode());
+                /* question */
+                batchTestDetailBean.setQuestion(stringValue);
                 batchTestDetailBean.setCreateDate(new Date());
-                list.add(batchTestDetailBean);   //存到list里面
+                //存到list里面
+                list.add(batchTestDetailBean);
             }
         }
         if(list.size() > 0){
             batchTestBean.setCreateDate(new Date());
             batchTestBean.setQuestionNum(list.size());
-            if(batchTestService.addBatchTestDetail(list) > 0){         //新增batchTestDetailBean
-                batchTestService.insert(batchTestBean);          //新增batchTestBean
+            //新增batchTestDetailBean
+            if(batchTestService.addBatchTestDetail(list) > 0){
+                //&#x65b0;&#x589e;batchTestBean
+                batchTestService.insert(batchTestBean);
                 rb.setReturnCode(SysConstant.SYS_RETURN_SUCCESS_CODE);
                 rb.setReturnMessage(SysConstant.SYS_RETURN_SUCCESS_MESSAGE);
             }
@@ -185,7 +190,6 @@ public class BatchTestController  {
 
 
     public static String getCellValue(Cell cell) {
-        new String();
         String result;
         switch(cell.getCellType()) {
             case 0:
@@ -197,7 +201,6 @@ public class BatchTestController  {
                     } else {
                         sdf = new SimpleDateFormat("yyyy-MM-dd");
                     }
-
                     Date date = cell.getDateCellValue();
                     result = sdf.format(date);
                 } else if(cell.getCellStyle().getDataFormat() == 58) {
@@ -213,7 +216,6 @@ public class BatchTestController  {
                     if(temp.equals("General")) {
                         format.applyPattern("#");
                     }
-
                     result = format.format(value);
                 }
                 break;
@@ -230,7 +232,6 @@ public class BatchTestController  {
 
         return result;
     }
-
 
 
 

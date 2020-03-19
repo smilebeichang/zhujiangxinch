@@ -1,6 +1,7 @@
 package net.wanho.service;
 
 import net.wanho.pojo.UserInfoBean;
+import net.wanho.pojo.UserInfoBean2;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface IUserInfoService {
     int updateUserInfo(UserInfoBean userInfoBean);
 
     int addUserInfo(UserInfoBean userInfoBean);
+
+    List<UserInfoBean2> searchUserInfo2(UserInfoBean2 userInfoBean2);
 }
